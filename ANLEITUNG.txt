@@ -1,0 +1,19 @@
+MATHE-WERKSTATT ELEKTRO – So kommt die App ins Internet
+
+1. Diesen Ordner (mathe-werkstatt-app) auf einem Computer entpacken.
+2. https://app.netlify.com/drop öffnen und den GANZEN Ordner ins Browserfenster ziehen.
+3. Innert 1 Stunde auf «Claim» klicken und ein kostenloses Netlify-Konto erstellen,
+   sonst wird die Seite wieder gelöscht.
+4. Optional: In den Site-Einstellungen einen schönen Namen wählen,
+   z. B. mathe-werkstatt-elektro.netlify.app
+5. Den Link verschicken. Niemand braucht ein Konto.
+
+AUF DEM HANDY INSTALLIEREN
+- iPhone/iPad: Link in Safari öffnen → Teilen-Symbol → «Zum Home-Bildschirm».
+- Android: Link in Chrome öffnen → «App installieren» (oder Menü ⋮ → «Zum Startbildschirm hinzufügen»).
+- Computer (Chrome/Edge): Installieren-Symbol rechts in der Adresszeile.
+Nach dem ersten Öffnen funktioniert die App auch ohne Internet.
+
+UPDATE EINSPIELEN
+Netlify → Site → «Deploys» → neuen Ordner hineinziehen. In sw.js die Zahl bei
+CACHE (mathe-werkstatt-v1 → v2) erhöhen, damit alle Geräte die neue Version holen.

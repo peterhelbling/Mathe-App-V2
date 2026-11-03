@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Mathe-Training für die Lehre als Elektroinstallateur/in EFZ – mit Erklärungen, Lösungswegen, Wochenplan und Prüfungstest.">
+<meta name="theme-color" content="#1b2130">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mathe Elektro">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>Mathe-Werkstatt Elektro</title>
+<style>
+@font-face{font-family:"Atkinson Hyperlegible";font-weight:400;font-style:normal;font-display:swap;src:url(fonts/atkinson-hyperlegible-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Atkinson Hyperlegible";font-weight:700;font-style:normal;font-display:swap;src:url(fonts/atkinson-hyperlegible-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-weight:600;font-style:normal;font-display:swap;src:url(fonts/barlow-condensed-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-weight:700;font-style:normal;font-display:swap;src:url(fonts/barlow-condensed-latin-700-normal.woff2) format("woff2")}
+:root{
+  /* Layout: Karopapier-Heft; Übersicht als Verteilerkasten mit Sicherungen; Akzente in den Aderfarben L braun, N blau, PE grün-gelb */
+  --paper:#f6f6f1; --grid:rgba(31,86,181,.075); --card:#ffffff; --ink:#1b2130; --muted:#586174; --line:#d8dad2;
+  --blue:#1f56b5; --blue-ink:#ffffff; --brown:#7c4420; --pe-g:#2f8f3a; --pe-y:#efc31a;
+  --good:#22803a; --good-bg:#e5f3e7; --bad:#b5382b; --bad-bg:#fbe8e5; --hint-bg:#fff6d6;
+  --housing:#e2e4e7; --breaker:#fbfbfa; --slot:#2b2f36; --fig-fill:rgba(31,86,181,.07);
+  --shadow:0 1px 2px rgba(20,30,50,.08),0 6px 18px rgba(20,30,50,.06);
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#13161c; --grid:rgba(120,160,235,.07); --card:#1b1f27; --ink:#e8eaef; --muted:#9aa3b4; --line:#2e3441;
+    --blue:#7aa4f2; --blue-ink:#0d1424; --brown:#d79363; --pe-g:#4cb757; --pe-y:#efc31a;
+    --good:#5fc86f; --good-bg:#15301b; --bad:#f38474; --bad-bg:#3b1d19; --hint-bg:#352d10;
+    --housing:#232831; --breaker:#2f3542; --slot:#0f1217; --fig-fill:rgba(122,164,242,.1);
+    --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#13161c; --grid:rgba(120,160,235,.07); --card:#1b1f27; --ink:#e8eaef; --muted:#9aa3b4; --line:#2e3441;
+  --blue:#7aa4f2; --blue-ink:#0d1424; --brown:#d79363; --pe-g:#4cb757; --pe-y:#efc31a;
+  --good:#5fc86f; --good-bg:#15301b; --bad:#f38474; --bad-bg:#3b1d19; --hint-bg:#352d10;
+  --housing:#232831; --breaker:#2f3542; --slot:#0f1217; --fig-fill:rgba(122,164,242,.1);
+  --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:20px 20px;
+  color:var(--ink); font:400 17px/1.5 var(--body);
+}
+a{color:var(--blue)}
+.wrap{max-width:760px;margin:0 auto;padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(64px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.05}
+h2{font-size:1.7rem;font-weight:700;letter-spacing:.01em}
+h3{font-size:1.3rem;font-weight:700}
+p{margin:0}
+.muted{color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+section{display:flex;flex-direction:column;gap:12px}
+
+/* Kabel: drei Adern */
+.wires{display:grid;gap:3px;width:100%}
+.wires i{display:block;height:5px;border-radius:3px}
+.wires i:nth-child(1){background:var(--brown)}
+.wires i:nth-child(2){background:var(--blue)}
+.wires i:nth-child(3){background:repeating-linear-gradient(-50deg,var(--pe-g) 0 9px,var(--pe-y) 9px 18px)}
+
+/* Kopf */
+.hero{display:flex;flex-direction:column;gap:12px;padding-top:12px}
+.eyebrow{font:600 .95rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--brown)}
+.hero h1{font-size:clamp(2.7rem,11vw,4.4rem);font-weight:700;text-transform:uppercase;letter-spacing:-.01em;line-height:.9}
+.hero h1 span{color:var(--blue);display:block}
+.hero p{max-width:34em;font-size:1.05rem}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:4px}
+.topbar a{white-space:nowrap;font:700 1.1rem var(--display);text-decoration:none;color:var(--ink);letter-spacing:.04em;text-transform:uppercase}
+.topbar a span{color:var(--blue)}
+.back{font:700 1rem var(--body)!important;text-transform:none!important;letter-spacing:0!important;color:var(--blue)!important}
+
+/* Karten, Knöpfe */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:700 1rem var(--body);padding:.7em 1.1em;min-height:48px;border-radius:10px;border:2px solid var(--blue);background:transparent;color:var(--blue);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:.4em}
+.btn.primary{background:var(--blue);color:var(--blue-ink)}
+.btn.ghost{border-color:var(--line);color:var(--ink)}
+.btn.small{min-height:40px;padding:.45em .8em;font-size:.95rem}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.chip{display:inline-flex;align-items:center;gap:.35em;font:700 .8rem var(--body);padding:.2em .6em;border-radius:99px;border:1px solid var(--line);color:var(--muted);background:var(--card)}
+.chip.calc{border-color:var(--pe-y);color:var(--ink);background:var(--hint-bg)}
+
+/* Heute */
+.today{border-left:6px solid var(--brown)}
+.today .label{font:700 .9rem var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--brown)}
+.today ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:2px}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:2px}
+.tile b{font:700 2rem/1 var(--display);font-variant-numeric:tabular-nums}
+.tile span{font-size:.85rem;color:var(--muted);line-height:1.25}
+
+/* Verteilerkasten */
+.panel{background:var(--housing);border-radius:14px;padding:12px 10px 14px;box-shadow:inset 0 0 0 1px var(--line);display:flex;flex-direction:column;gap:6px}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;font:700 .85rem var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 4px}
+.rail{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;position:relative;padding:6px 0}
+.rail::before{content:"";position:absolute;left:-6px;right:-6px;top:50%;height:16px;transform:translateY(-50%);background:repeating-linear-gradient(90deg,#8e949c 0 2px,#b3b8bf 2px 9px);opacity:.55;border-radius:2px}
+.brk{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--breaker);border:1px solid var(--line);border-radius:6px;padding:8px 3px 9px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);min-height:158px;transition:transform .15s}
+.brk:hover{transform:translateY(-2px)}
+.brk-f{font:700 .85rem var(--display);letter-spacing:.04em;background:var(--ink);color:var(--paper);padding:0 6px;border-radius:3px}
+.brk-sw{display:flex;flex-direction:column;align-items:center;font:700 .72rem/1 var(--display);color:var(--muted);gap:2px}
+.brk-slot{width:22px;height:46px;background:var(--slot);border-radius:4px;position:relative}
+.brk-lever{position:absolute;left:2px;right:2px;height:21px;bottom:2px;background:linear-gradient(#ececec,#c4c6c9);border-radius:3px;transition:bottom .3s ease}
+.brk.on .brk-lever{bottom:23px;background:linear-gradient(#86d891,#2f9a40)}
+.brk-leds{display:flex;gap:4px}
+.led{width:9px;height:9px;border-radius:50%;background:#a7adb6;display:inline-block}
+.led.busy{background:var(--pe-y)}
+.led.ok{background:var(--good);box-shadow:0 0 6px var(--good)}
+.brk-name{font:600 .8rem/1.08 var(--display);text-align:center;hyphens:manual;overflow-wrap:break-word;max-width:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.85rem;color:var(--muted);padding:0 4px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+
+.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tool{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:4px;box-shadow:var(--shadow);border-top:4px solid var(--blue)}
+.tool:nth-child(2){border-top-color:var(--brown)}
+.tool:nth-child(3){border-top-color:var(--pe-g)}
+.tool:nth-child(4){border-top-color:var(--pe-y)}
+.tool b{font:700 1.25rem var(--display)}
+.tool span{font-size:.9rem;color:var(--muted);line-height:1.3}
+
+/* Thema */
+.t-head{display:flex;flex-direction:column;gap:8px}
+.t-head .fuse{align-self:flex-start;font:700 .9rem var(--display);background:var(--ink);color:var(--paper);padding:1px 8px;border-radius:4px;letter-spacing:.05em}
+.t-head h1{font-size:clamp(2.1rem,8vw,3rem);font-weight:700}
+.why{font-size:.95rem;color:var(--muted)}
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--line)}
+.tabs button{font:700 1rem var(--body);background:none;border:0;padding:.6em .9em;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--brown)}
+.levels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.lvl{font:700 1rem var(--body);background:var(--card);border:2px solid var(--line);border-radius:10px;padding:8px 6px;cursor:pointer;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:5px}
+.lvl small{font-weight:400;color:var(--muted);font-size:.78rem}
+.lvl[aria-pressed="true"]{border-color:var(--blue);box-shadow:inset 0 0 0 1px var(--blue)}
+.lvl.done{background:var(--good-bg)}
+.meter{display:flex;gap:2px;max-width:100%}
+.meter i{width:7px;height:7px;border-radius:2px;background:var(--line);flex:0 0 auto}
+.meter i.y{background:var(--good)}
+.meter i.n{background:var(--bad)}
+.lvl-info{font-size:.9rem;color:var(--muted)}
+
+.qcard{gap:14px}
+.qhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;font-size:.9rem;color:var(--muted)}
+.streak{color:var(--good);font-weight:700}
+.qtext{font-size:1.32rem;line-height:1.45;font-variant-numeric:tabular-nums}
+.ans{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center}
+.ans .pre{font:700 1.3rem var(--body)}
+.ans input{font:700 1.45rem var(--body);padding:.4em .6em;border:2px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);width:100%;min-width:0}
+.ans input:focus{border-color:var(--blue);outline:none}
+.ans .unit{font:700 1.15rem var(--body);color:var(--muted);min-width:1ch}
+.ans .btn{grid-column:1 / -1}
+.keys{display:flex;gap:8px}
+.keys button{font:700 1.3rem var(--body);width:52px;height:44px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.mc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.mc button{font:700 1.2rem var(--body);min-height:56px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;padding:6px}
+.mc button.sel{border-color:var(--blue);box-shadow:inset 0 0 0 1px var(--blue)}
+.mc button.right{border-color:var(--good);background:var(--good-bg)}
+.mc button.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.fb{display:flex;flex-direction:column;gap:10px}
+.msg{border-radius:10px;padding:12px 14px;border-left:6px solid var(--line);background:var(--card)}
+.msg.good{background:var(--good-bg);border-left-color:var(--good)}
+.msg.bad{background:var(--bad-bg);border-left-color:var(--bad)}
+.msg.hint{background:var(--hint-bg);border-left-color:var(--pe-y)}
+.msg strong{display:block;font:700 1.15rem var(--display);letter-spacing:.02em;margin-bottom:2px}
+.steps{margin:6px 0 0;padding-left:1.4em;display:flex;flex-direction:column;gap:4px;font-variant-numeric:tabular-nums}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.86em;line-height:1.1;margin:0 .12em}
+.fr>span:first-child{border-bottom:2px solid currentColor;padding:0 .2em}
+.fig{width:100%;max-width:330px;display:block;margin:0 auto}
+.fig rect,.fig path{fill:var(--fig-fill);stroke:var(--blue);stroke-width:2.5}
+.fig .cut{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-dasharray:5 4}
+.fig .hot{stroke:var(--brown);stroke-width:3.5}
+.fig text{fill:var(--ink);font:700 14px var(--body)}
+.fig .q{fill:var(--brown);font-size:20px}
+
+/* Erklärungen */
+.expl{display:flex;flex-direction:column;gap:12px}
+.rule{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.rule h3{font-size:1.2rem}
+.rule .ex{font-variant-numeric:tabular-nums;background:var(--paper);border-radius:6px;padding:6px 10px}
+.job{border-left-color:var(--brown)}
+.tri{width:150px;color:var(--ink);display:block}
+.tri text{fill:currentColor;font-family:var(--body)}
+table.mini{border-collapse:collapse;font-variant-numeric:tabular-nums}
+table.mini td,table.mini th{border:1px solid var(--line);padding:4px 10px;text-align:right}
+
+/* Test */
+.testbar{display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:700}
+.timer{font:700 1.6rem var(--display);font-variant-numeric:tabular-nums;padding:2px 10px;border-radius:8px;background:var(--ink);color:var(--paper)}
+.timer.low{background:var(--bad)}
+.jump{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}
+.jump button{font:700 .85rem var(--body);height:34px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;padding:0}
+.jump button.done{background:var(--fig-fill);border-color:var(--blue)}
+.jump button.cur{outline:2px solid var(--brown);outline-offset:1px}
+.res-list{display:flex;flex-direction:column;gap:8px}
+.res-item{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--good);border-radius:10px;padding:10px 14px}
+.res-item.no{border-left-color:var(--bad)}
+.res-item summary{cursor:pointer;display:flex;flex-direction:column;gap:4px}
+.res-item .qtext{font-size:1.05rem}
+.big{font:700 clamp(3rem,14vw,4.5rem)/1 var(--display);font-variant-numeric:tabular-nums}
+.bars{display:flex;flex-direction:column;gap:6px}
+.bar-row{display:grid;grid-template-columns:8.5em 1fr 3em;gap:8px;align-items:center;font-size:.92rem}
+.bar-row .track{height:12px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar-row .fill{height:100%;background:var(--good);border-radius:6px}
+.bar-row .fill.mid{background:var(--pe-y)}
+.bar-row .fill.low{background:var(--bad)}
+.hist{display:flex;gap:6px;align-items:flex-end;height:70px}
+.hist div{flex:1;background:var(--blue);border-radius:4px 4px 0 0;min-height:3px;position:relative}
+.hist div span{position:absolute;top:-18px;left:0;right:0;text-align:center;font-size:.75rem;color:var(--muted)}
+
+/* Blitz */
+.blitz-q{font:700 clamp(3rem,15vw,5rem)/1 var(--display);text-align:center;font-variant-numeric:tabular-nums;padding:8px 0}
+.tbar{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+.tbar div{height:100%;background:var(--brown);transition:width .2s linear}
+.flash-ok{animation:fok .35s}
+.flash-no{animation:fno .35s}
+@keyframes fok{from{background:var(--good-bg)}to{background:var(--card)}}
+@keyframes fno{from{background:var(--bad-bg)}to{background:var(--card)}}
+
+/* Plan */
+.weeks{display:flex;flex-direction:column;gap:10px}
+.week{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.week.now{border:2px solid var(--brown)}
+.week.fin{opacity:.72}
+.week header{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.wk{font:700 .85rem var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--brown);min-width:5.5em}
+.week header a{margin-left:auto;font-weight:700}
+.sess{display:flex;flex-wrap:wrap;gap:8px}
+.sess label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:.92rem}
+.sess input{width:20px;height:20px;accent-color:var(--good)}
+.install{border-left:6px solid var(--blue)}
+.code{width:100%;min-height:90px;font:400 .8rem/1.3 ui-monospace,Menlo,Consolas,monospace;border:2px solid var(--line);border-radius:10px;padding:8px;background:var(--card);color:var(--ink);word-break:break-all}
+.tips{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
+
+@media (max-width:420px){
+  .tiles b{font-size:1.6rem}
+  .qtext{font-size:1.2rem}
+  .bar-row{grid-template-columns:7em 1fr 2.6em}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<main class="wrap" id="app"></main>
+<script>
+(function(){
+'use strict';
+
+/* ---------- Hilfsfunktionen ---------- */
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const P=a=>a[Math.floor(Math.random()*a.length)];
+const gcd=(a,b)=>{a=Math.abs(a);b=Math.abs(b);while(b){const t=b;b=a%b;a=t;}return a;};
+const clean=n=>Math.round(n*1e6)/1e6;
+const N=n=>clean(n).toLocaleString('de-CH',{maximumFractionDigits:6}).replace(/-/g,'−');
+const C=n=>clean(n).toLocaleString('de-CH',{minimumFractionDigits:2,maximumFractionDigits:2});
+const NP=n=>n<0?'('+N(n)+')':N(n);
+const fr=(n,d)=>(d===1)?N(n):'<span class="fr"><span>'+n+'</span><span>'+d+'</span></span>';
+const red=(n,d)=>{const g=gcd(n,d);return [n/g,d/g];};
+const sg=n=>n<0?'− '+(-n):'+ '+n;
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const terminates=d=>{while(d%2===0)d/=2;while(d%5===0)d/=5;return d===1;};
+const mk=o=>{const it=Object.assign({u:'',tol:0,rel:0,kind:'num',hint:'',steps:[]},o);if(typeof it.a==='number')it.a=clean(it.a);return it;};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function addSteps(a,b){const parts=[b-b%100,(b%100)-(b%10),b%10].filter(x=>x>0);let c=a;const s=['Schritt für Schritt:'];parts.forEach(p=>{s.push(`${N(c)} + ${N(p)} = ${N(c+p)}`);c+=p;});s.push(`Ergebnis: <b>${N(a+b)}</b>`);return s;}
+function subSteps(a,b){const parts=[b-b%100,(b%100)-(b%10),b%10].filter(x=>x>0);let c=a;const s=['Schritt für Schritt:'];parts.forEach(p=>{s.push(`${N(c)} − ${N(p)} = ${N(c-p)}`);c-=p;});s.push(`Ergebnis: <b>${N(a-b)}</b>`);return s;}
+function divSteps(a,b,q){const t=q-q%10;if(t===0||t===q)return [`Probe mit der Reihe: ${b} × ${q} = ${N(a)}`,`Also: ${N(a)} : ${b} = <b>${q}</b>`];const p1=b*t,p2=a-p1;return [`Zerlegen: ${N(a)} = ${N(p1)} + ${N(p2)}`,`${N(p1)} : ${b} = ${t}`,`${N(p2)} : ${b} = ${q-t}`,`${t} + ${q-t} = <b>${q}</b>`];}
+
+/* ---------- Skizzen ---------- */
+function rectSvg(l,b){const s=Math.min(160/l,90/b),w=l*s,h=b*s,x=(240-w)/2+8,y=(130-h)/2+8;
+  return `<svg class="fig" viewBox="0 0 240 140" role="img" aria-label="Rechteck ${l} m mal ${b} m"><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2"/><text x="${x+w/2}" y="${y-7}" text-anchor="middle">${N(l)} m</text><text x="${x-7}" y="${y+h/2+5}" text-anchor="end">${N(b)} m</text></svg>`;}
+function lSvg(L,B,a,b){const s=Math.min(170/L,100/B),W=L*s,H=B*s,x=(240-W)/2,y=(140-H)/2+4,ca=a*s,cb=b*s;
+  const d=`M${x} ${y} H${x+W-ca} V${y+cb} H${x+W} V${y+H} H${x} Z`;
+  return `<svg class="fig" viewBox="0 0 240 150" role="img" aria-label="L-förmiger Raum"><rect class="cut" x="${x+W-ca}" y="${y}" width="${ca}" height="${cb}"/><path d="${d}"/><text x="${x+W/2}" y="${y+H+17}" text-anchor="middle">${L} m</text><text x="${x-7}" y="${y+H/2+5}" text-anchor="end">${B} m</text><text x="${x+W-ca/2}" y="${y-6}" text-anchor="middle">${a} m</text><text x="${x+W+6}" y="${y+cb/2+5}">${b} m</text></svg>`;}
+function diagSvg(a,b){const s=Math.min(150/a,90/b),W=a*s,H=b*s,x=(240-W)/2-10,y=(140-H)/2-2;
+  return `<svg class="fig" viewBox="0 0 240 150" role="img" aria-label="Wand mit schräger Leitung"><rect x="${x}" y="${y}" width="${W}" height="${H}"/><line class="hot" x1="${x}" y1="${y+H}" x2="${x+W}" y2="${y}"/><text x="${x+W/2}" y="${y+H+17}" text-anchor="middle">${N(a)} m</text><text x="${x+W+7}" y="${y+H/2+5}">${N(b)} m</text><text class="q" x="${x+W/2-10}" y="${y+H/2-6}" text-anchor="end">?</text></svg>`;}
+
+/* ---------- Aufgabengeneratoren ---------- */
+const GEN={};
+
+GEN.grund={
+1:[
+()=>{const a=R(120,899),b=R(105,699);return mk({q:`${N(a)} + ${N(b)}`,a:a+b,hint:'Zerlege die zweite Zahl in Hunderter, Zehner und Einer. Addiere Schritt für Schritt.',steps:addSteps(a,b)});},
+()=>{const a=R(300,999),b=R(105,a-30);return mk({q:`${N(a)} − ${N(b)}`,a:a-b,hint:'Ziehe zuerst die Hunderter ab, dann die Zehner, dann die Einer.',steps:subSteps(a,b)});},
+()=>{const a=R(1,9)*10+R(1,9),b=R(3,9),z=a-a%10,e=a%10;return mk({q:`${a} × ${b}`,a:a*b,hint:`Zerlege ${a} in ${z} + ${e}.`,steps:[`${z} × ${b} = ${z*b}`,`${e} × ${b} = ${e*b}`,`${z*b} + ${e*b} = <b>${N(a*b)}</b>`]});},
+()=>{const b=R(3,9);let q;do{q=R(12,39);}while(q%10===0);const a=b*q;return mk({q:`${a} : ${b}`,a:q,hint:`Zerlege die Zahl. Tipp: ${b} × 10 = ${b*10}.`,steps:divSteps(a,b,q)});},
+()=>{const z=R(3,9),s=R(2,6);return mk({q:`In einer Wohnung hat jedes der ${z} Zimmer ${s} Steckdosen. Wie viele Steckdosen sind es insgesamt?`,a:z*s,u:'Stück',hint:'In jedem Zimmer gleich viele → malrechnen.',steps:[`${z} Zimmer × ${s} Steckdosen = <b>${z*s} Steckdosen</b>`]});},
+],
+2:[
+()=>{const a=R(5,50),b=R(3,12),c=R(3,12);return mk({q:`${a} + ${b} × ${c}`,a:a+b*c,hint:'Punkt vor Strich: Zuerst malrechnen, dann plus.',steps:[`Zuerst: ${b} × ${c} = ${b*c}`,`Dann: ${a} + ${b*c} = <b>${a+b*c}</b>`]});},
+()=>{const c=R(2,9),k=R(2,9),b=c*k,a=R(k+5,k+80);return mk({q:`${a} − ${b} : ${c}`,a:a-k,hint:'Punkt vor Strich: Zuerst teilen, dann minus.',steps:[`Zuerst: ${b} : ${c} = ${k}`,`Dann: ${a} − ${k} = <b>${a-k}</b>`]});},
+()=>{const a=R(2,9),b=R(3,12),c=R(2,9),d=R(2,9);return mk({q:`${a} × ${b} + ${c} × ${d}`,a:a*b+c*d,hint:'Rechne zuerst beide Malrechnungen.',steps:[`${a} × ${b} = ${a*b}`,`${c} × ${d} = ${c*d}`,`${a*b} + ${c*d} = <b>${a*b+c*d}</b>`]});},
+()=>{const a=R(102,489),b=R(3,8),h=a-a%100,z=a%100-a%10,e=a%10;const s=[`${h} × ${b} = ${N(h*b)}`];if(z)s.push(`${z} × ${b} = ${z*b}`);if(e)s.push(`${e} × ${b} = ${e*b}`);s.push(`Zusammen: <b>${N(a*b)}</b>`);return mk({q:`${a} × ${b}`,a:a*b,hint:`Zerlege ${a} in Hunderter, Zehner und Einer.`,steps:s});},
+()=>{let n,l;do{n=R(3,8);l=R(4,12);}while(n*l>=95);return mk({q:`Eine Kabelrolle hat 100 m. Du schneidest ${n} Stücke zu je ${l} m ab. Wie viele Meter bleiben auf der Rolle?`,a:100-n*l,u:'m',hint:'Rechne zuerst, wie viel du insgesamt abschneidest.',steps:[`Abgeschnitten: ${n} × ${l} m = ${n*l} m`,`Rest: 100 m − ${n*l} m = <b>${100-n*l} m</b>`]});},
+],
+3:[
+()=>{const a=R(3,20),b=R(3,20),c=R(2,9),d=R(1,(a+b)*c-1);return mk({q:`(${a} + ${b}) × ${c} − ${d}`,a:(a+b)*c-d,hint:'Zuerst die Klammer, dann mal, dann minus.',steps:[`Klammer: ${a} + ${b} = ${a+b}`,`Mal: ${a+b} × ${c} = ${(a+b)*c}`,`Minus: ${(a+b)*c} − ${d} = <b>${(a+b)*c-d}</b>`]});},
+()=>{const a=R(12,39);let b;do{b=R(11,29);}while(b%10===0);const z=b-b%10,e=b%10;return mk({q:`${a} × ${b}`,a:a*b,hint:`Zerlege ${b} in ${z} + ${e}.`,steps:[`${a} × ${z} = ${a*z}`,`${a} × ${e} = ${a*e}`,`${a*z} + ${a*e} = <b>${N(a*b)}</b>`]});},
+()=>{const b=P([12,15,20,24,25]),q=R(6,40),a=b*q;return mk({q:`${N(a)} : ${b}`,a:q,hint:`Überlege: ${b} × 10 = ${b*10}. Wie oft passt ${b} hinein?`,steps:divSteps(a,b,q)});},
+()=>{const b=R(8,20),c=R(1,b-2),d=R(2,6),m=(b-c)*d,a=R(m+5,m+80);return mk({q:`${a} − (${b} − ${c}) × ${d}`,a:a-m,hint:'Klammer zuerst, dann Punkt vor Strich.',steps:[`Klammer: ${b} − ${c} = ${b-c}`,`Mal: ${b-c} × ${d} = ${m}`,`Minus: ${a} − ${m} = <b>${a-m}</b>`]});},
+()=>{const z=R(8,16),s=R(4,8),t=R(2,4);return mk({q:`Ein Neubau hat ${z} Zimmer. In jedes Zimmer kommen ${s} Steckdosen und ${t} Schalter. Wie viele Teile sind das insgesamt?`,a:z*(s+t),u:'Stück',hint:'Rechne zuerst die Teile pro Zimmer.',steps:[`Pro Zimmer: ${s} + ${t} = ${s+t}`,`Alle Zimmer: ${z} × ${s+t} = <b>${z*(s+t)}</b>`]});},
+]};
+
+GEN.neg={
+1:[
+()=>{const t=R(-12,-1),d=R(3,15),r=t+d;return mk({q:`Am Morgen zeigt das Thermometer ${N(t)} °C. Bis am Mittag wird es ${d} °C wärmer. Wie warm ist es am Mittag?`,a:r,u:'°C',hint:'Wärmer heisst: auf dem Zahlenstrahl nach rechts gehen.',steps:r>=0?[`Von ${N(t)} °C bis 0 °C sind es ${-t} Grad.`,`Es bleiben ${d} − ${-t} = ${r} Grad über 0.`,`Ergebnis: <b>${N(r)} °C</b>`]:[`Du gehst ${d} Schritte nach rechts, bleibst aber unter 0.`,`${N(t)} + ${d} = <b>${N(r)} °C</b>`]});},
+()=>{const t=R(-5,10),d=R(4,18);return mk({q:`Es ist ${N(t)} °C. In der Nacht wird es ${d} °C kälter. Welche Temperatur ist es dann?`,a:t-d,u:'°C',hint:'Kälter heisst: auf dem Zahlenstrahl nach links gehen.',steps:[`${N(t)} − ${d}: ${d} Schritte nach links`,`Ergebnis: <b>${N(t-d)} °C</b>`]});},
+()=>{const a=R(2,15),b=R(-15,-2);return mk({q:`Im Keller sind es ${a} °C, draussen ${N(b)} °C. Wie gross ist der Temperaturunterschied?`,a:a-b,u:'°C',hint:'Rechne den Weg über 0: von unten bis 0 und von 0 bis oben.',steps:[`Von ${N(b)} bis 0: ${-b} Grad`,`Von 0 bis ${a}: ${a} Grad`,`Zusammen: ${-b} + ${a} = <b>${a-b} °C</b>`]});},
+()=>{const s=new Set();while(s.size<4)s.add(R(-15,9));const arr=[...s];const min=Math.min(...arr);return mk({kind:'mc',q:'Welche Zahl ist am kleinsten?',choices:arr.map(N),ci:arr.indexOf(min),a:min,hint:'Auf dem Zahlenstrahl liegt die kleinste Zahl ganz links. −9 ist kleiner als −2.',steps:[`Am weitesten links auf dem Zahlenstrahl liegt <b>${N(min)}</b>.`]});},
+()=>{const u=-R(1,3),o=R(1,4);return mk({q:`Ein Lift fährt vom ${-u}. Untergeschoss (Stockwerk ${N(u)}) ins ${o}. Obergeschoss (Stockwerk ${o}). Wie viele Stockwerke fährt er?`,a:o-u,u:'Stockwerke',hint:'Das Erdgeschoss ist Stockwerk 0.',steps:[`Von ${N(u)} bis 0: ${-u}`,`Von 0 bis ${o}: ${o}`,`Zusammen: <b>${o-u} Stockwerke</b>`]});},
+],
+2:[
+()=>{const a=R(-30,30),b=R(-30,-1);return mk({q:`${N(a)} + (${N(b)})`,a:a+b,hint:'Plus eine negative Zahl ist dasselbe wie minus.',steps:[`+ (${N(b)}) wird zu − ${-b}`,`${N(a)} − ${-b} = <b>${N(a+b)}</b>`]});},
+()=>{const a=R(-20,20),b=R(2,20);return mk({q:`${N(a)} − (−${b})`,a:a+b,hint:'Minus minus wird plus.',steps:[`− (−${b}) wird zu + ${b}`,`${N(a)} + ${b} = <b>${N(a+b)}</b>`]});},
+()=>{const a=R(3,20),b=R(a+3,50);return mk({q:`${a} − ${b}`,a:a-b,hint:'Wenn du mehr abziehst, als da ist, wird das Ergebnis negativ.',steps:[`${b} − ${a} = ${b-a}`,`Weil ${b} grösser ist als ${a}, ist das Ergebnis negativ: <b>${N(a-b)}</b>`]});},
+()=>{const a=R(-25,-5),b=R(3,20);return mk({q:`${N(a)} − ${b}`,a:a-b,hint:'Du gehst noch weiter nach links auf dem Zahlenstrahl.',steps:[`${N(a)} − ${b}: noch ${b} Schritte nach links`,`Ergebnis: <b>${N(a-b)}</b>`]});},
+],
+3:[
+()=>{const a=R(2,12),b=R(2,12),t=R(0,2);const x=t===1?a:-a,y=t===0?b:-b,r=x*y;return mk({q:`${NP(x)} · ${NP(y)}`,a:r,hint:'Gleiche Vorzeichen → Plus. Verschiedene Vorzeichen → Minus.',steps:[`Ohne Vorzeichen: ${a} · ${b} = ${a*b}`,`Vorzeichen: ${(x<0)===(y<0)?'gleich → plus':'verschieden → minus'}`,`Ergebnis: <b>${N(r)}</b>`]});},
+()=>{const b=R(2,9),q=R(2,9),t=R(0,2);const a=t===1?b*q:-b*q,d=t===0?b:-b,r=a/d;return mk({q:`${NP(a)} : ${NP(d)}`,a:r,hint:'Beim Teilen gelten die gleichen Vorzeichen-Regeln wie beim Malrechnen.',steps:[`Ohne Vorzeichen: ${b*q} : ${b} = ${q}`,`Vorzeichen: ${(a<0)===(d<0)?'gleich → plus':'verschieden → minus'}`,`Ergebnis: <b>${N(r)}</b>`]});},
+()=>{const a=R(2,15),b=R(2,6),c=R(2,6),r=-a-b*c;return mk({q:`−${a} + ${b} · (−${c})`,a:r,hint:'Punkt vor Strich – und achte auf die Vorzeichen.',steps:[`Zuerst: ${b} · (−${c}) = −${b*c}`,`Dann: −${a} + (−${b*c}) = −${a} − ${b*c}`,`Ergebnis: <b>${N(r)}</b>`]});},
+()=>{let v,avg;do{avg=R(-3,3);v=[R(-8,8),R(-8,8),R(-8,8)];v.push(4*avg-v[0]-v[1]-v[2]);}while(Math.abs(v[3])>12||new Set(v).size<3);const sum=4*avg;return mk({q:`Ein Thermometer auf der Baustelle zeigt an vier Tagen: ${v.map(x=>N(x)+' °C').join(', ')}. Wie gross ist die Durchschnittstemperatur?`,a:avg,u:'°C',hint:'Durchschnitt: Alle Werte zusammenzählen, dann durch die Anzahl teilen.',steps:[`Summe: ${v.map(NP).join(' + ')} = ${N(sum)}`,`Durchschnitt: ${NP(sum)} : 4 = <b>${N(avg)} °C</b>`]});},
+]};
+
+GEN.dez={
+1:[
+()=>{const A=R(100,999),B=R(5,95),s=A+B*10;return mk({q:`${N(A/100)} + ${N(B/10)}`,a:s/100,hint:'Schreibe Komma unter Komma. Fehlende Stellen mit 0 auffüllen.',steps:[`Untereinander: ${(A/100).toFixed(2)} + ${(B/10).toFixed(2)}`,`Ergebnis: <b>${N(s/100)}</b>`]});},
+()=>{const A=R(500,999),B=R(10,49),s=A-B*10;return mk({q:`${N(A/100)} − ${N(B/10)}`,a:s/100,hint:'Komma unter Komma schreiben, dann wie gewohnt subtrahieren.',steps:[`Untereinander: ${(A/100).toFixed(2)} − ${(B/10).toFixed(2)}`,`Ergebnis: <b>${N(s/100)}</b>`]});},
+()=>{let n;do{n=R(1000,99999);}while(n%100===0);const r=Math.floor((n+50)/100),d1=Math.floor(n/10)%10;return mk({q:`Runde ${N(n/100)} auf eine ganze Zahl.`,a:r,hint:'Schau die erste Ziffer nach dem Komma an: 0–4 abrunden, 5–9 aufrunden.',steps:[`Erste Ziffer nach dem Komma: ${d1}`,d1>=5?'5 oder mehr → aufrunden':'4 oder weniger → abrunden',`Ergebnis: <b>${N(r)}</b>`]});},
+()=>{const A=R(11,99)*5,B=R(11,99)*5;return mk({q:`Du kaufst ein Paket Kabelbinder für ${C(A/100)} CHF und Isolierband für ${C(B/100)} CHF. Wie viel zahlst du zusammen?`,a:(A+B)/100,u:'CHF',tol:0.001,money:true,hint:'Franken zu Franken, Rappen zu Rappen. Oder: Komma unter Komma.',steps:[`${C(A/100)} + ${C(B/100)} = <b>${C((A+B)/100)} CHF</b>`]});},
+],
+2:[
+()=>{const A=R(11,999),f=P([10,100,1000]),st={10:'1 Stelle',100:'2 Stellen',1000:'3 Stellen'}[f];return mk({q:`${N(A/100)} × ${N(f)}`,a:A*f/100,hint:`Bei × ${N(f)} rutscht das Komma um ${st} nach rechts.`,steps:[`Komma ${st} nach rechts`,`Ergebnis: <b>${N(A*f/100)}</b>`]});},
+()=>{const A=R(5,9999),f=P([10,100,1000]),st={10:'1 Stelle',100:'2 Stellen',1000:'3 Stellen'}[f];return mk({q:`${N(A/10)} : ${N(f)}`,a:A/10/f,hint:`Bei : ${N(f)} rutscht das Komma um ${st} nach links.`,steps:[`Komma ${st} nach links`,`Ergebnis: <b>${N(A/10/f)}</b>`]});},
+()=>{let A;do{A=R(11,99);}while(A%10===0);const b=R(2,9);return mk({q:`${N(A/10)} × ${b}`,a:A*b/10,hint:'Rechne zuerst ohne Komma. Setze dann das Komma wieder.',steps:[`Ohne Komma: ${A} × ${b} = ${A*b}`,`1 Stelle nach dem Komma → <b>${N(A*b/10)}</b>`]});},
+()=>{let n;do{n=R(1000,99999);}while(n%10===0);const r=Math.floor((n+50)/100)/10,d2=Math.floor(n/10)%10;return mk({q:`Runde ${N(n/1000)} auf eine Stelle nach dem Komma.`,a:r,hint:'Schau die zweite Ziffer nach dem Komma an: 0–4 abrunden, 5–9 aufrunden.',steps:[`Zweite Ziffer nach dem Komma: ${d2}`,d2>=5?'5 oder mehr → aufrunden':'4 oder weniger → abrunden',`Ergebnis: <b>${N(r)}</b>`]});},
+()=>{const a=R(100,700)*5,b=R(100,700)*5,pay=[2000,5000,10000].find(x=>x>a+b);return mk({q:`Du kaufst Abzweigdosen für ${C(a/100)} CHF und Kabel für ${C(b/100)} CHF. Du bezahlst mit einer ${pay/100}-Franken-Note. Wie viel Rückgeld bekommst du?`,a:(pay-a-b)/100,u:'CHF',tol:0.001,money:true,hint:'Zuerst zusammenzählen, dann von der Note abziehen.',steps:[`Zusammen: ${C(a/100)} + ${C(b/100)} = ${C((a+b)/100)} CHF`,`Rückgeld: ${pay/100}.00 − ${C((a+b)/100)} = <b>${C((pay-a-b)/100)} CHF</b>`]});},
+],
+3:[
+()=>{const A=R(2,9);let B;do{B=R(11,49);}while(B%10===0);const p=A*B;return mk({q:`0.${A} × ${N(B/10)}`,a:p/100,hint:'Rechne ohne Komma. Zähle dann die Stellen nach dem Komma zusammen.',steps:[`Ohne Komma: ${A} × ${B} = ${p}`,`Stellen nach dem Komma: 1 + 1 = 2`,`Ergebnis: <b>${N(p/100)}</b>`]});},
+()=>{const b=P([0.5,0.2,0.25,0.4]),q=R(3,30),a=clean(q*b),m=b===0.25?100:10;return mk({q:`${N(a)} : ${N(b)}`,a:q,hint:`Mach den Teiler zu einer ganzen Zahl: Nimm beide Zahlen × ${m}.`,steps:[`Beide × ${m}: ${N(a*m)} : ${N(b*m)}`,`${N(a*m)} : ${N(b*m)} = <b>${q}</b>`]});},
+()=>{let n;do{n=R(10000,99999);}while(n%10===0);const r=Math.floor((n+50)/100)/100,d3=Math.floor(n/10)%10;return mk({q:`Runde ${N(n/10000)} auf zwei Stellen nach dem Komma.`,a:r,hint:'Schau die dritte Ziffer nach dem Komma an.',steps:[`Dritte Ziffer nach dem Komma: ${d3}`,d3>=5?'5 oder mehr → aufrunden':'4 oder weniger → abrunden',`Ergebnis: <b>${N(r)}</b>`]});},
+()=>{const rp=R(21,79)*5,n=R(6,25);return mk({q:`1 m Installationskabel kostet ${C(rp/100)} CHF. Was kosten ${n} m?`,a:rp*n/100,u:'CHF',tol:0.001,money:true,hint:'Rechne in Rappen, dann wieder in Franken umwandeln.',steps:[`${C(rp/100)} CHF = ${rp} Rp.`,`${rp} Rp. × ${n} = ${N(rp*n)} Rp.`,`= <b>${C(rp*n/100)} CHF</b>`]});},
+]};
+
+GEN.bruch={
+1:[
+()=>{const d=P([2,3,4,5,10]),n=R(1,d-1),G=d*R(2,20),part=G/d;return mk({q:`Wie viel ist ${fr(n,d)} von ${G}?`,a:part*n,hint:`Teile zuerst durch den Nenner (${d}), dann mal den Zähler (${n}).`,steps:[`${G} : ${d} = ${part}`,`${part} × ${n} = <b>${part*n}</b>`]});},
+()=>{let n,d;do{d=R(3,10);n=R(1,d-1);}while(gcd(n,d)!==1);const k=R(2,6);return mk({kind:'frac',reduced:true,fa:[n,d],q:`Kürze so weit wie möglich: ${fr(n*k,d*k)}`,a:n/d,at:fr(n,d),hint:`Suche eine Zahl, durch die du ${n*k} und ${d*k} teilen kannst. Gib das Resultat als Bruch ein, z. B. 3/4.`,steps:[`${n*k} und ${d*k} sind beide durch ${k} teilbar.`,`${n*k} : ${k} = ${n} und ${d*k} : ${k} = ${d}`,`Ergebnis: <b>${fr(n,d)}</b>`]});},
+()=>{const [n,d]=P([[1,2],[1,4],[3,4],[1,5],[2,5],[3,5],[4,5],[1,10],[3,10],[7,10]]),e=(d===2||d===4)?100:10;return mk({noFrac:true,q:`Schreibe ${fr(n,d)} als Dezimalzahl.`,a:n/d,hint:'Erweitere den Bruch auf Zehntel oder Hundertstel.',steps:[`Erweitern auf ${e}: ${fr(n,d)} = ${fr(n*e/d,e)}`,`= <b>${N(n/d)}</b>`]});},
+()=>{const d=P([2,3,4,6,10,12]),n=R(1,d-1),[rn,rd]=red(n,d);return mk({q:`Wie viele Minuten sind ${fr(rn,rd)} Stunde?`,a:60/rd*rn,u:'min',hint:'1 Stunde = 60 Minuten. Teile 60 durch den Nenner.',steps:[`60 min : ${rd} = ${60/rd} min`,`${60/rd} min × ${rn} = <b>${60/rd*rn} min</b>`]});},
+],
+2:[
+()=>{const d=R(5,12),a=R(1,d-2),b=R(1,d-1-a),[rn,rd]=red(a+b,d);return mk({kind:'frac',fa:[a+b,d],q:`${fr(a,d)} + ${fr(b,d)}`,a:(a+b)/d,at:fr(rn,rd),hint:'Gleicher Nenner: Zähler zusammenzählen, der Nenner bleibt.',steps:[`${a} + ${b} = ${a+b}, also ${fr(a+b,d)}`,...(rn!==a+b?[`Kürzen: ${fr(rn,rd)}`]:[]),`Ergebnis: <b>${fr(rn,rd)}</b>`]});},
+()=>{const d1=P([2,3,4,5]),f=P([2,3]),d2=d1*f,a=R(1,d1-1),b=R(1,d2-1),num=a*f+b,[rn,rd]=red(num,d2);return mk({kind:'frac',fa:[num,d2],q:`${fr(a,d1)} + ${fr(b,d2)}`,a:num/d2,at:fr(rn,rd),hint:`Mach die Nenner gleich: Erweitere ${fr(a,d1)} mit ${f}.`,steps:[`${fr(a,d1)} = ${fr(a*f,d2)}`,`${fr(a*f,d2)} + ${fr(b,d2)} = ${fr(num,d2)}`,...(rn!==num?[`Kürzen: ${fr(rn,rd)}`]:[]),`Ergebnis: <b>${fr(rn,rd)}</b>`+(rd!==1&&rn>rd&&terminates(rd)?` (= ${N(rn/rd)})`:'')]});},
+()=>{const d1=P([2,3,4,5]),f=P([2,3]),d2=d1*f,a=R(1,d1-1),b=R(1,a*f-1),num=a*f-b,[rn,rd]=red(num,d2);return mk({kind:'frac',fa:[num,d2],q:`${fr(a,d1)} − ${fr(b,d2)}`,a:num/d2,at:fr(rn,rd),hint:`Mach die Nenner gleich: Erweitere ${fr(a,d1)} mit ${f}.`,steps:[`${fr(a,d1)} = ${fr(a*f,d2)}`,`${fr(a*f,d2)} − ${fr(b,d2)} = ${fr(num,d2)}`,...(rn!==num?[`Kürzen: ${fr(rn,rd)}`]:[]),`Ergebnis: <b>${fr(rn,rd)}</b>`]});},
+()=>{const d=P([2,4,5,10]),n=R(1,d-1),L=d*R(5,25),used=L/d*n;return mk({q:`Eine Kabelrolle hat ${L} m. Davon sind ${fr(n,d)} schon verbraucht. Wie viele Meter sind noch auf der Rolle?`,a:L-used,u:'m',hint:'Rechne zuerst aus, wie viele Meter verbraucht sind.',steps:[`${fr(1,d)} von ${L} m = ${L/d} m`,`${fr(n,d)} von ${L} m = ${n} × ${L/d} m = ${used} m`,`Rest: ${L} m − ${used} m = <b>${L-used} m</b>`]});},
+],
+3:[
+()=>{const a=R(1,5),b=R(a+1,8),c=R(1,5),d=R(c+1,9),[rn,rd]=red(a*c,b*d);return mk({kind:'frac',fa:[a*c,b*d],q:`${fr(a,b)} · ${fr(c,d)}`,a:a*c/(b*d),at:fr(rn,rd),hint:'Zähler mal Zähler, Nenner mal Nenner. Kürzen nicht vergessen.',steps:[`${fr(a+' · '+c,b+' · '+d)} = ${fr(a*c,b*d)}`,...(rn!==a*c?[`Kürzen: ${fr(rn,rd)}`]:[]),`Ergebnis: <b>${fr(rn,rd)}</b>`]});},
+()=>{const a=R(1,5),b=R(a+1,8),c=R(1,5),d=R(c+1,9),nn=a*d,dd=b*c,[rn,rd]=red(nn,dd);return mk({kind:'frac',fa:[nn,dd],q:`${fr(a,b)} : ${fr(c,d)}`,a:nn/dd,at:fr(rn,rd),hint:`Durch einen Bruch teilen = mit dem Kehrwert malnehmen. Der Kehrwert von ${fr(c,d)} ist ${fr(d,c)}.`,steps:[`${fr(a,b)} : ${fr(c,d)} = ${fr(a,b)} · ${fr(d,c)}`,`= ${fr(nn,dd)}`,...(rn!==nn?[`Kürzen: ${fr(rn,rd)}`]:[]),`Ergebnis: <b>${fr(rn,rd)}</b>`+(rd!==1&&rn>rd&&terminates(rd)?` (= ${N(rn/rd)})`:'')]});},
+()=>{let d1,d2,n1,n2;do{d1=P([2,4,5]);d2=P([4,5,10]);n1=R(1,d1-1);n2=R(1,d2-1);}while(d1===d2||n1/d1+n2/d2>=0.95);const L=20*R(2,10),u1=L/d1*n1,u2=L/d2*n2;return mk({q:`Von einer Kabelrolle mit ${L} m werden ${fr(n1,d1)} in der Küche und ${fr(n2,d2)} im Bad verlegt. Wie viele Meter bleiben übrig?`,a:L-u1-u2,u:'m',hint:'Rechne beide Teile einzeln in Meter um.',steps:[`Küche: ${L} : ${d1} × ${n1} = ${u1} m`,`Bad: ${L} : ${d2} × ${n2} = ${u2} m`,`Rest: ${L} − ${u1} − ${u2} = <b>${L-u1-u2} m</b>`]});},
+]};
+
+GEN.proz={
+1:[
+()=>{const p=P([10,20,25,50,5,1,75]),mult={10:10,20:5,25:4,50:2,5:20,1:100,75:4}[p],G=mult*R(2,Math.max(10,Math.floor(1000/mult))),W=G*p/100;
+  const S={50:[`50 % ist die Hälfte.`,`${N(G)} : 2 = <b>${N(W)}</b>`],25:[`25 % ist ein Viertel.`,`${N(G)} : 4 = <b>${N(W)}</b>`],75:[`25 % = ${N(G)} : 4 = ${N(G/4)}`,`75 % = 3 × ${N(G/4)} = <b>${N(W)}</b>`],10:[`10 % = ${N(G)} : 10 = <b>${N(W)}</b>`],20:[`10 % = ${N(G)} : 10 = ${N(G/10)}`,`20 % = 2 × ${N(G/10)} = <b>${N(W)}</b>`],5:[`10 % = ${N(G)} : 10 = ${N(G/10)}`,`5 % ist die Hälfte davon: <b>${N(W)}</b>`],1:[`1 % = ${N(G)} : 100 = <b>${N(W)}</b>`]}[p];
+  return mk({q:`Wie viel sind ${p} % von ${N(G)}?`,a:W,hint:'10 % = durch 10. 50 % = die Hälfte. 25 % = ein Viertel. 1 % = durch 100.',steps:S});},
+()=>{const [n,d,p]=P([[1,2,50],[1,4,25],[3,4,75],[1,5,20],[2,5,40],[1,10,10],[3,10,30],[1,20,5]]);return mk({q:`Wie viel Prozent sind ${fr(n,d)}?`,a:p,u:'%',noFrac:true,hint:'Erweitere den Bruch auf Hundertstel.',steps:[`${fr(n,d)} = ${fr(p,100)} = <b>${p} %</b>`]});},
+()=>{const r=P([10,20,50]),price=R(2,20)*10,dis=price*r/100;return mk({q:`Ein Werkzeugkoffer kostet ${price} CHF. Du bekommst ${r} % Rabatt. Wie viele Franken Rabatt sind das?`,a:dis,u:'CHF',money:true,tol:0.001,hint:r===50?'50 % ist die Hälfte.':'Rechne zuerst 10 %.',steps:r===50?[`Die Hälfte von ${price}: <b>${C(dis)} CHF</b>`]:[`10 % = ${price} : 10 = ${price/10}`,...(r===20?[`20 % = 2 × ${price/10} = <b>${C(dis)} CHF</b>`]:[`Ergebnis: <b>${C(dis)} CHF</b>`])]});},
+],
+2:[
+()=>{let G,p;do{G=P([20,25,40,50,80,200,250,400]);p=P([5,10,20,25,40,50,60,75,80]);}while((G*p)%100!==0);const W=G*p/100;return mk({q:`Von ${G} Steckdosen sind ${W} schon montiert. Wie viel Prozent sind das?`,a:p,u:'%',hint:'Prozentsatz = Teil : Ganzes × 100.',steps:[`${W} : ${G} = ${N(W/G)}`,`${N(W/G)} × 100 = <b>${p} %</b>`]});},
+()=>{const price=R(2,30)*10,r=P([10,20,25,30,50]),dis=price*r/100;return mk({q:`Eine Bohrmaschine kostet ${price} CHF. Im Ausverkauf gibt es ${r} % Rabatt. Was kostet sie jetzt?`,a:price-dis,u:'CHF',tol:0.001,money:true,hint:'Rechne zuerst den Rabatt aus und ziehe ihn vom Preis ab.',steps:[`Rabatt: ${r} % von ${price} = ${C(dis)} CHF`,`Neuer Preis: ${price} − ${C(dis)} = <b>${C(price-dis)} CHF</b>`]});},
+()=>{const p=P([15,30,40,60]),G=R(2,30)*20,W=G*p/100;return mk({q:`Wie viel sind ${p} % von ${N(G)} m Kabel?`,a:W,u:'m',hint:p===15?'15 % = 10 % + 5 %.':`${p} % = ${p/10} × 10 %.`,steps:p===15?[`10 % = ${N(G/10)}`,`5 % = ${N(G/20)}`,`15 % = ${N(G/10)} + ${N(G/20)} = <b>${N(W)} m</b>`]:[`10 % = ${N(G)} : 10 = ${N(G/10)}`,`${p} % = ${p/10} × ${N(G/10)} = <b>${N(W)} m</b>`]});},
+],
+3:[
+()=>{const p=P([5,10,15,20,25,40]),G=R(2,40)*20,W=G*p/100;return mk({q:`${p} % der Kabel im Lager sind ${N(W)} m. Wie viele Meter Kabel sind es insgesamt (100 %)?`,a:G,u:'m',hint:'Rechne zuerst 1 % aus, dann 100 %.',steps:[`1 % = ${N(W)} : ${p} = ${N(W/p)}`,`100 % = ${N(W/p)} × 100 = <b>${N(G)} m</b>`]});},
+()=>{const net=R(2,40)*10,m=clean(net*0.081);return mk({q:`Eine Offerte kostet ${net} CHF ohne MWST. Dazu kommen 8.1 % MWST. Wie viel kostet sie mit MWST?`,a:clean(net+m),u:'CHF',tol:0.006,money:true,calc:true,hint:'8.1 % = mal 0.081. Den MWST-Betrag zum Preis dazuzählen.',steps:[`MWST: ${net} × 0.081 = ${C(m)} CHF`,`Mit MWST: ${net} + ${C(m)} = <b>${C(net+m)} CHF</b>`,`Abkürzung: ${net} × 1.081 = ${C(net+m)}`]});},
+()=>{let alt,p,neu;do{alt=P([40,50,80,200,250,400,500]);p=P([5,10,20,25,50]);neu=alt*(100+p)/100;}while(!Number.isInteger(neu));return mk({q:`Eine Rolle Kabel kostete früher ${alt} CHF, jetzt ${neu} CHF. Um wie viel Prozent ist der Preis gestiegen?`,a:p,u:'%',hint:'Zunahme : alter Preis × 100.',steps:[`Zunahme: ${neu} − ${alt} = ${neu-alt} CHF`,`${neu-alt} : ${alt} = ${N((neu-alt)/alt)}`,`× 100 = <b>${p} %</b>`]});},
+]};
+
+GEN.drei={
+1:[
+()=>{const per=P([0.5,0.8,1.2,1.5,2,2.5,3,1.8]),n1=R(2,10);let n2;do{n2=R(2,20);}while(n2===n1);const X=clean(n1*per),Y=clean(n2*per);return mk({q:`${n1} m Kabel kosten ${C(X)} CHF. Was kosten ${n2} m?`,a:Y,u:'CHF',tol:0.001,money:true,hint:'Rechne zuerst aus, was 1 m kostet.',steps:[`1 m: ${C(X)} : ${n1} = ${C(per)} CHF`,`${n2} m: ${n2} × ${C(per)} = <b>${C(Y)} CHF</b>`]});},
+()=>{const per=P([10,12,20,25,50]),n1=R(2,6);let n2;do{n2=R(2,12);}while(n2===n1);return mk({q:`In ${n1} Packungen sind ${n1*per} Verbindungsklemmen. Wie viele Klemmen sind in ${n2} Packungen?`,a:n2*per,u:'Stück',hint:'Wie viele Klemmen sind in 1 Packung?',steps:[`1 Packung: ${n1*per} : ${n1} = ${per}`,`${n2} Packungen: ${n2} × ${per} = <b>${n2*per}</b>`]});},
+()=>{const rate=P([4,5,6,8,10]),h1=R(2,5);let h2;do{h2=R(1,8);}while(h2===h1);return mk({q:`Eine Elektrikerin montiert in ${h1} Stunden ${h1*rate} Steckdosen. Wie viele schafft sie in ${h2} Stunden?`,a:h2*rate,u:'Stück',hint:'Wie viele schafft sie in 1 Stunde?',steps:[`1 h: ${h1*rate} : ${h1} = ${rate}`,`${h2} h: ${h2} × ${rate} = <b>${h2*rate}</b>`]});},
+],
+2:[
+()=>{const a=R(2,6);let b;do{b=R(2,6);}while(b===a);const t=b*R(1,3),tot=a*t;return mk({q:`${a} Monteure brauchen für einen Auftrag ${t} Tage. Wie lange brauchen ${b} Monteure? (Alle arbeiten gleich schnell.)`,a:tot/b,u:'Tage',hint:'Mehr Leute → weniger Zeit. Wie lange bräuchte 1 Monteur allein?',steps:[`1 Monteur: ${a} × ${t} = ${tot} Tage`,`${b} Monteure: ${tot} : ${b} = <b>${tot/b} Tage</b>`]});},
+()=>{const total=P([60,120]),l1=P([2,3,4,5,6]);let l2;do{l2=P([2,3,4,5,6,10,12]);}while(l2===l1);return mk({q:`Aus einer Kabelrolle kannst du ${total/l1} Stücke zu je ${l1} m schneiden. Wie viele Stücke zu je ${l2} m gibt das?`,a:total/l2,u:'Stück',hint:'Wie lang ist das ganze Kabel?',steps:[`Ganze Rolle: ${total/l1} × ${l1} m = ${total} m`,`${total} m : ${l2} m = <b>${total/l2} Stücke</b>`]});},
+()=>{let v1,v2,t1;do{v1=P([40,50,60,80,100]);v2=P([40,50,60,80,100,120]);t1=R(3,12)*5;}while(v1===v2||(v1*t1)%v2!==0);const t2=v1*t1/v2;return mk({q:`Mit ${v1} km/h brauchst du ${t1} Minuten zur Baustelle. Wie lange brauchst du mit ${v2} km/h?`,a:t2,u:'min',hint:'Schneller fahren → weniger Zeit. Das ist umgekehrt proportional.',steps:[`Mit 1 km/h bräuchtest du ${v1} × ${t1} = ${N(v1*t1)} min`,`Mit ${v2} km/h: ${N(v1*t1)} : ${v2} = <b>${t2} min</b>`]});},
+()=>{const per=R(5,49)*5,n1=R(2,8);let n2;do{n2=R(3,15);}while(n2===n1);return mk({q:`${n1} Abzweigdosen kosten ${C(per*n1/100)} CHF. Was kosten ${n2} Stück?`,a:per*n2/100,u:'CHF',tol:0.001,money:true,hint:'Rechne zuerst den Preis für 1 Stück aus.',steps:[`1 Stück: ${C(per*n1/100)} : ${n1} = ${C(per/100)} CHF`,`${n2} Stück: ${n2} × ${C(per/100)} = <b>${C(per*n2/100)} CHF</b>`]});},
+],
+3:[
+()=>{const per=P([20,25,30,40,50]);let a,t,b,u;do{a=R(2,5);t=R(2,5);b=R(2,6);u=R(2,6);}while(a===b&&t===u);const M=per*a*t;return mk({q:`${a} Elektriker verlegen in ${t} Tagen ${N(M)} m Kabel. Wie viele Meter verlegen ${b} Elektriker in ${u} Tagen?`,a:per*b*u,u:'m',hint:'Rechne zuerst: Wie viel schafft 1 Elektriker an 1 Tag?',steps:[`1 Elektriker, 1 Tag: ${N(M)} : ${a} : ${t} = ${per} m`,`${b} Elektriker, ${u} Tage: ${per} × ${b} × ${u} = <b>${N(per*b*u)} m</b>`]});},
+()=>{const rate=P([8,12,16,20]),t1=P([1.5,2.5,0.5]),L=rate*t1,t2=R(3,8);return mk({q:`In ${N(t1)} h verlegt ein Elektriker ${N(L)} m Kabelrohr. Wie viele Meter schafft er in ${t2} h?`,a:rate*t2,u:'m',hint:'Wie viele Meter schafft er in 1 Stunde?',steps:[`1 h: ${N(L)} : ${N(t1)} = ${rate} m`,`${t2} h: ${t2} × ${rate} = <b>${rate*t2} m</b>`]});},
+()=>{let a,t,b;do{a=R(3,8);t=R(4,12);b=R(2,10);}while(b===a||(a*t)%b!==0);return mk({q:`Ein Vorrat an Kabelbindern reicht für ${a} Monteure ${t} Tage. Wie lange reicht er für ${b} Monteure?`,a:a*t/b,u:'Tage',hint:'Mehr Leute → der Vorrat ist schneller weg.',steps:[`Für 1 Monteur: ${a} × ${t} = ${a*t} Tage`,`Für ${b} Monteure: ${a*t} : ${b} = <b>${a*t/b} Tage</b>`]});},
+]};
+
+const LEN=[['m','cm',100],['cm','mm',10],['m','mm',1000],['km','m',1000]];
+const PRE=[['kW','W',1000],['kV','V',1000],['A','mA',1000],['MW','kW',1000]];
+const AREA=[['cm²','mm²',100],['m²','cm²',10000],['dm²','cm²',100],['m²','dm²',100]];
+const EN=[['kWh','Wh',1000],['MWh','kWh',1000]];
+function convGen(list,hintExtra){const [big,small,f]=P(list),A=R(1,99);
+  if(Math.random()<0.5){return mk({q:`${N(A/10)} ${big} = ? ${small}`,a:A*f/10,u:small,hint:`1 ${big} = ${N(f)} ${small}. Von der grossen zur kleinen Einheit: mal ${N(f)}.${hintExtra||''}`,steps:[`1 ${big} = ${N(f)} ${small}`,`${N(A/10)} × ${N(f)} = <b>${N(A*f/10)} ${small}</b>`]});}
+  const v=A*f/10;return mk({q:`${N(v)} ${small} = ? ${big}`,a:A/10,u:big,hint:`1 ${big} = ${N(f)} ${small}. Von der kleinen zur grossen Einheit: geteilt durch ${N(f)}.${hintExtra||''}`,steps:[`1 ${big} = ${N(f)} ${small}`,`${N(v)} : ${N(f)} = <b>${N(A/10)} ${big}</b>`]});}
+GEN.einh={
+1:[
+()=>convGen(LEN),()=>convGen(LEN),
+()=>{const kg=P([0.5,1.5,2.5,0.25,3,12.5]);return mk({q:`Eine Kabelrolle wiegt ${N(kg)} kg. Wie viele Gramm sind das?`,a:kg*1000,u:'g',hint:'1 kg = 1000 g.',steps:[`${N(kg)} × 1000 = <b>${N(kg*1000)} g</b>`]});},
+],
+2:[
+()=>{const v=P([0.5,1.5,0.25,0.75,2.5,1.25,3,0.2]);return mk({q:`${N(v)} h = ? min`,a:v*60,u:'min',hint:'1 h = 60 min. Also mal 60.',steps:[`${N(v)} × 60 = <b>${N(v*60)} min</b>`]});},
+()=>{const m=P([15,30,45,90,120,150,12,6,36]);return mk({q:`${m} min = ? h`,a:m/60,u:'h',hint:'Geteilt durch 60. Tipp: 30 min = 0.5 h, 15 min = 0.25 h, 6 min = 0.1 h.',steps:[`${m} : 60 = <b>${N(m/60)} h</b>`]});},
+()=>convGen(PRE,' k = kilo = 1000, m = milli = ein Tausendstel, M = Mega = 1 Million.'),
+()=>convGen(PRE,' k = kilo = 1000, m = milli = ein Tausendstel, M = Mega = 1 Million.'),
+],
+3:[
+()=>convGen(AREA,' Achtung Fläche: 1 cm = 10 mm, also 1 cm² = 10 × 10 = 100 mm².'),
+()=>convGen(AREA,' Achtung Fläche: 1 m = 100 cm, also 1 m² = 100 × 100 = 10’000 cm².'),
+()=>convGen(EN),
+()=>{const h=R(1,8),m=P([15,30,45,6,12,24,36,48]);return mk({q:`${h} h ${m} min = ? h (als Dezimalzahl)`,a:h+m/60,u:'h',hint:'Rechne nur die Minuten in Stunden um: Minuten : 60.',steps:[`${m} min = ${m} : 60 = ${N(m/60)} h`,`${h} + ${N(m/60)} = <b>${N(h+m/60)} h</b>`]});},
+]};
+
+GEN.gleich={
+1:[
+()=>{const x=R(2,50),a=R(2,50);return mk({q:`x + ${a} = ${x+a}`,a:x,pre:'x =',hint:`Rechne auf beiden Seiten − ${a}.`,steps:[`x + ${a} = ${x+a} &nbsp;| − ${a}`,`<b>x = ${x}</b>`,`Probe: ${x} + ${a} = ${x+a} ✓`]});},
+()=>{const x=R(10,60),a=R(2,x-1);return mk({q:`x − ${a} = ${x-a}`,a:x,pre:'x =',hint:`Rechne auf beiden Seiten + ${a}.`,steps:[`x − ${a} = ${x-a} &nbsp;| + ${a}`,`<b>x = ${x}</b>`,`Probe: ${x} − ${a} = ${x-a} ✓`]});},
+()=>{const x=R(2,12),a=R(2,12);return mk({q:`${a} · x = ${a*x}`,a:x,pre:'x =',hint:`Teile beide Seiten durch ${a}.`,steps:[`${a} · x = ${a*x} &nbsp;| : ${a}`,`<b>x = ${x}</b>`,`Probe: ${a} · ${x} = ${a*x} ✓`]});},
+()=>{const b=R(2,12),a=R(2,9);return mk({q:`x : ${a} = ${b}`,a:a*b,pre:'x =',hint:`Rechne auf beiden Seiten · ${a}.`,steps:[`x : ${a} = ${b} &nbsp;| · ${a}`,`<b>x = ${a*b}</b>`,`Probe: ${a*b} : ${a} = ${b} ✓`]});},
+],
+2:[
+()=>{const x=R(1,12),a=R(2,9),b=R(1,30),c=a*x+b;return mk({q:`${a} · x + ${b} = ${c}`,a:x,pre:'x =',hint:`Zuerst − ${b}, dann : ${a}.`,steps:[`${a} · x + ${b} = ${c} &nbsp;| − ${b}`,`${a} · x = ${c-b} &nbsp;| : ${a}`,`<b>x = ${x}</b>`]});},
+()=>{const x=R(2,12),a=R(2,9),b=R(1,a*x-1),c=a*x-b;return mk({q:`${a} · x − ${b} = ${c}`,a:x,pre:'x =',hint:`Zuerst + ${b}, dann : ${a}.`,steps:[`${a} · x − ${b} = ${c} &nbsp;| + ${b}`,`${a} · x = ${c+b} &nbsp;| : ${a}`,`<b>x = ${x}</b>`]});},
+()=>{const k=R(2,9),a=R(2,6),b=R(1,20),x=a*k;return mk({q:`x : ${a} + ${b} = ${k+b}`,a:x,pre:'x =',hint:`Zuerst − ${b}, dann · ${a}.`,steps:[`x : ${a} + ${b} = ${k+b} &nbsp;| − ${b}`,`x : ${a} = ${k} &nbsp;| · ${a}`,`<b>x = ${x}</b>`]});},
+()=>{const x=R(2,15),a=R(2,5),b=R(1,9);return mk({q:`${a} · (x + ${b}) = ${a*(x+b)}`,a:x,pre:'x =',hint:`Zuerst : ${a}, dann − ${b}.`,steps:[`${a} · (x + ${b}) = ${a*(x+b)} &nbsp;| : ${a}`,`x + ${b} = ${x+b} &nbsp;| − ${b}`,`<b>x = ${x}</b>`]});},
+],
+3:[
+()=>{let x,a,c,b,d;do{x=R(-5,10);a=R(3,9);c=R(1,a-1);b=R(-10,20);d=a*x+b-c*x;}while(b===0||d===0);const k=a-c;return mk({q:`${a} · x ${sg(b)} = ${c} · x ${sg(d)}`,a:x,pre:'x =',hint:`Bring alle x auf eine Seite: − ${c} · x. Dann die Zahl wegschaffen.`,steps:[`${a}x ${sg(b)} = ${c}x ${sg(d)} &nbsp;| − ${c}x`,`${k}x ${sg(b)} = ${N(d)} &nbsp;| ${b<0?'+ '+(-b):'− '+b}`,`${k}x = ${N(d-b)} &nbsp;| : ${k}`,`<b>x = ${N(x)}</b>`]});},
+()=>{const F=P([['U','R','I','U = R · I'],['P','U','I','P = U · I'],['W','P','t','W = P · t'],['A','l','b','A = l · b']]);const [z,x,y,f]=F;const ask=Math.random()<0.5?y:x,other=ask===y?x:y;const opts=[`${z} : ${other}`,`${other} : ${z}`,`${z} · ${other}`,`${z} − ${other}`];const order=shuffle([0,1,2,3]);return mk({kind:'mc',q:`Die Formel heisst <b>${f}</b>. Stelle sie nach <b>${ask}</b> um: ${ask} = ?`,choices:order.map(i=>opts[i]),ci:order.indexOf(0),a:0,hint:`Teile beide Seiten durch ${other}.`,steps:[`${f} &nbsp;| : ${other}`,`<b>${ask} = ${z} : ${other}</b>`]});},
+()=>{const T=P([{z:'A',x:'l',y:'b',uz:'m²',ux:'m',uy:'m',X:R(3,12),Y:R(2,9),f:'A = l · b'},{z:'s',x:'v',y:'t',uz:'km',ux:'km/h',uy:'h',X:P([40,50,60,80]),Y:R(2,5),f:'s = v · t'},{z:'U',x:'R',y:'I',uz:'V',ux:'Ω',uy:'A',X:R(5,50),Y:R(2,8),f:'U = R · I'},{z:'P',x:'U',y:'I',uz:'W',ux:'V',uy:'A',X:230,Y:R(2,16),f:'P = U · I'}]);const Z=T.X*T.Y;return mk({q:`Formel: <b>${T.f}</b>. Gegeben: ${T.z} = ${N(Z)} ${T.uz} und ${T.x} = ${N(T.X)} ${T.ux}. Berechne ${T.y}.`,a:T.Y,u:T.uy,pre:T.y+' =',hint:`Stelle zuerst um: ${T.y} = ${T.z} : ${T.x}.`,steps:[`${T.f} &nbsp;| : ${T.x}`,`${T.y} = ${T.z} : ${T.x}`,`${T.y} = ${N(Z)} : ${N(T.X)} = <b>${T.Y} ${T.uy}</b>`]});},
+]};
+
+GEN.geo={
+1:[
+()=>{const l=R(3,9),b=R(2,l);return mk({q:`Ein Raum ist ${l} m lang und ${b} m breit. An allen vier Wänden soll rundherum ein Kabelkanal montiert werden. Wie viele Meter Kabelkanal brauchst du? (Die Tür nicht abziehen.)`,a:2*(l+b),u:'m',hint:'Das ist der Umfang des Rechtecks: 2 · (Länge + Breite).',steps:[`u = 2 · (${l} + ${b})`,`u = 2 · ${l+b} = <b>${2*(l+b)} m</b>`],svg:rectSvg(l,b)});},
+()=>{const l=R(3,12),b=R(2,9);return mk({q:`Ein Raum ist ${l} m lang und ${b} m breit. Wie gross ist die Bodenfläche?`,a:l*b,u:'m²',hint:'Fläche Rechteck = Länge · Breite.',steps:[`A = ${l} m · ${b} m = <b>${l*b} m²</b>`],svg:rectSvg(l,b)});},
+()=>{const s=R(2,15);return mk({q:`Eine quadratische Abdeckplatte hat die Seitenlänge ${s} cm. Wie gross ist ihre Fläche?`,a:s*s,u:'cm²',hint:'Quadrat: Seite · Seite.',steps:[`A = ${s} cm · ${s} cm = <b>${s*s} cm²</b>`]});},
+()=>{const s=R(2,15)*5;return mk({q:`Ein quadratischer Verteilerkasten hat vorne die Seitenlänge ${s} cm. Wie lang ist der Rand rundherum (Umfang)?`,a:4*s,u:'cm',hint:'Ein Quadrat hat 4 gleich lange Seiten.',steps:[`u = 4 · ${s} cm = <b>${4*s} cm</b>`]});},
+],
+2:[
+()=>{const d=R(2,20);return mk({q:`Ein rundes Loch für eine Deckenleuchte hat den Durchmesser ${d} cm. Wie gross ist der Umfang? (π = 3.14)`,a:clean(d*3.14),u:'cm',rel:0.002,hint:'Umfang Kreis = Durchmesser · π.',steps:[`u = d · π = ${d} · 3.14 = <b>${N(d*3.14)} cm</b>`]});},
+()=>{const r=R(1,10);return mk({q:`Ein Kreis hat den Radius ${r} cm. Wie gross ist die Fläche? (π = 3.14)`,a:clean(r*r*3.14),u:'cm²',rel:0.002,hint:'Fläche Kreis = r · r · π.',steps:[`A = ${r} · ${r} · 3.14`,`A = ${r*r} · 3.14 = <b>${N(r*r*3.14)} cm²</b>`]});},
+()=>{const L=R(6,12),B=R(4,9),a=R(2,L-3),b=R(1,B-2);return mk({q:`Ein Raum hat die Form eines L (siehe Skizze): ${L} m lang, ${B} m breit, in einer Ecke fehlt ein Stück von ${a} m × ${b} m. Wie gross ist die Bodenfläche?`,a:L*B-a*b,u:'m²',hint:'Rechne das grosse Rechteck und ziehe das fehlende Stück ab.',steps:[`Grosses Rechteck: ${L} · ${B} = ${L*B} m²`,`Fehlendes Stück: ${a} · ${b} = ${a*b} m²`,`Fläche: ${L*B} − ${a*b} = <b>${L*B-a*b} m²</b>`],svg:lSvg(L,B,a,b)});},
+()=>{let A,Bb;do{A=R(15,45);Bb=R(12,30);}while(A%10===0||Bb%10===0);return mk({q:`Ein Bad ist ${N(A/10)} m lang und ${N(Bb/10)} m breit. Wie gross ist die Bodenfläche?`,a:A*Bb/100,u:'m²',hint:'Ohne Komma rechnen, dann 2 Stellen nach dem Komma setzen.',steps:[`Ohne Komma: ${A} · ${Bb} = ${A*Bb}`,`2 Stellen nach dem Komma: <b>${N(A*Bb/100)} m²</b>`],svg:rectSvg(A/10,Bb/10)});},
+],
+3:[
+()=>{const [d]=P([[1.13],[1.38],[1.78],[2.26]]),ex=d*d*3.14/4,r=Math.round(ex*10)/10;return mk({q:`Ein Kupferdraht hat den Durchmesser ${N(d)} mm. Berechne den Querschnitt mit A = d · d · π : 4 (π = 3.14). Runde auf eine Stelle nach dem Komma.`,a:r,tol:0.051,u:'mm²',calc:true,hint:'Rechne zuerst d · d, dann mal 3.14, dann durch 4.',steps:[`d · d = ${N(d)} · ${N(d)} = ${N(d*d)}`,`· 3.14 = ${N(d*d*3.14)}`,`: 4 = ${N(ex)}`,`Gerundet: <b>${N(r)} mm²</b> – das ist ein gängiger Leiterquerschnitt.`]});},
+()=>{const [a,b,c]=P([[3,4,5],[4,3,5],[8,6,10],[12,5,13],[2,1.5,2.5],[3.2,2.4,4]]);return mk({q:`In einer Halle wird eine Leitung schräg über eine Wand geführt. Die Wand ist ${N(a)} m breit und ${N(b)} m hoch. Wie lang ist die schräge Leitung?`,a:c,u:'m',calc:true,hint:'Satz des Pythagoras: a² + b² = c². c ist die längste Seite.',steps:[`c² = ${N(a)}² + ${N(b)}² = ${N(a*a)} + ${N(b*b)} = ${N(c*c)}`,`c = √${N(c*c)} = <b>${N(c)} m</b>`],svg:diagSvg(a,b)});},
+()=>{const l=R(3,8),b=R(3,6),h=P([2.4,2.5,2.6]);return mk({q:`Ein Technikraum ist ${l} m lang, ${b} m breit und ${N(h)} m hoch. Wie gross ist das Volumen (wichtig für die Lüftung)?`,a:clean(l*b*h),u:'m³',tol:0.001,hint:'Volumen Quader = Länge · Breite · Höhe.',steps:[`V = ${l} · ${b} · ${N(h)}`,`V = ${l*b} · ${N(h)} = <b>${N(l*b*h)} m³</b>`]});},
+]};
+
+const PAR=[[6,3],[12,6],[10,10],[20,30],[4,12],[60,30],[40,10],[15,10],[24,12],[100,25]];
+const DEV=[[2300,'Wasserkocher'],[2070,'Heizlüfter'],[1150,'Mikrowelle'],[1380,'Staubsauger'],[920,'Kaffeemaschine'],[460,'Gaming-PC']];
+GEN.elek={
+1:[
+()=>{const Rv=R(2,50),I=R(1,10);return mk({q:`Durch einen Widerstand R = ${Rv} Ω fliesst ein Strom I = ${I} A. Wie gross ist die Spannung U?`,a:Rv*I,u:'V',pre:'U =',hint:'Ohmsches Gesetz: U = R · I.',steps:['U = R · I',`U = ${Rv} Ω · ${I} A = <b>${Rv*I} V</b>`]});},
+()=>{const I=P([1,2,4,5,6,8,10,13]);return mk({q:`Ein Gerät am Haushaltsnetz (230 V) braucht einen Strom von ${I} A. Wie gross ist seine Leistung P?`,a:230*I,u:'W',pre:'P =',hint:'Leistung: P = U · I.',steps:['P = U · I',`P = 230 V · ${I} A = <b>${N(230*I)} W</b>`]});},
+()=>{const Pk=P([0.5,1,1.5,2,2.5,3]),t=R(1,8);return mk({q:`Ein Heizlüfter mit ${N(Pk)} kW läuft ${t} Stunden. Wie viel Energie braucht er?`,a:clean(Pk*t),u:'kWh',pre:'W =',hint:'Energie: W = P · t (kW · h = kWh).',steps:['W = P · t',`W = ${N(Pk)} kW · ${t} h = <b>${N(Pk*t)} kWh</b>`]});},
+()=>{const W=P([60,100,500,1500,2000,2500,800,1800]);return mk({q:`Ein Föhn hat eine Leistung von ${N(W)} W. Wie viele Kilowatt (kW) sind das?`,a:W/1000,u:'kW',hint:'1 kW = 1000 W. Also durch 1000 teilen.',steps:[`${N(W)} : 1000 = <b>${N(W/1000)} kW</b>`]});},
+],
+2:[
+()=>{const Rv=R(2,40),I=R(1,8),U=Rv*I;return mk({q:`An einem Widerstand R = ${Rv} Ω liegt eine Spannung U = ${U} V. Wie gross ist der Strom I?`,a:I,u:'A',pre:'I =',hint:'Stelle U = R · I nach I um: I = U : R.',steps:['I = U : R',`I = ${U} V : ${Rv} Ω = <b>${I} A</b>`]});},
+()=>{const Rv=R(2,40),I=R(1,8),U=Rv*I;return mk({q:`Eine Lampe hat bei U = ${U} V einen Strom von I = ${I} A. Wie gross ist ihr Widerstand R?`,a:Rv,u:'Ω',pre:'R =',hint:'R = U : I.',steps:['R = U : I',`R = ${U} V : ${I} A = <b>${Rv} Ω</b>`]});},
+()=>{const I=R(2,13),Pw=230*I;return mk({q:`Ein Wasserkocher hat eine Leistung von ${N(Pw)} W und ist an 230 V angeschlossen. Wie gross ist der Strom?`,a:I,u:'A',pre:'I =',hint:'P = U · I, also I = P : U.',steps:['I = P : U',`I = ${N(Pw)} W : 230 V = <b>${I} A</b>`]});},
+()=>{const [Pw,name]=P([[2000,'Ein Backofen'],[1500,'Ein Heizlüfter'],[1000,'Eine Mikrowelle'],[2500,'Ein Wäschetrockner'],[500,'Ein Luftentfeuchter']]),t=R(1,6),pr=P([25,28,30,32]),kwh=Pw/1000*t,cost=kwh*pr/100;return mk({q:`${name} mit ${N(Pw)} W läuft ${t} Stunden. Eine kWh kostet ${pr} Rappen. Wie viel kostet der Strom dafür?`,a:clean(cost),u:'CHF',tol:0.006,money:true,hint:'1. W in kW umrechnen. 2. kWh berechnen. 3. Mal den Preis.',steps:[`${N(Pw)} W = ${N(Pw/1000)} kW`,`Energie: ${N(Pw/1000)} kW · ${t} h = ${N(kwh)} kWh`,`Kosten: ${N(kwh)} · ${pr} Rp. = ${N(kwh*pr)} Rp. = <b>${C(cost)} CHF</b>`]});},
+],
+3:[
+()=>{const r1=R(1,10)*5,r2=R(1,10)*5,r3=R(1,10)*5,Rg=r1+r2+r3,I=R(1,5),U=Rg*I;return mk({q:`Drei Widerstände R₁ = ${r1} Ω, R₂ = ${r2} Ω und R₃ = ${r3} Ω sind in Reihe an U = ${U} V angeschlossen. Wie gross ist der Strom I?`,a:I,u:'A',pre:'I =',hint:'Reihenschaltung: R = R₁ + R₂ + R₃. Dann I = U : R.',steps:[`R = ${r1} + ${r2} + ${r3} = ${Rg} Ω`,`I = U : R = ${U} V : ${Rg} Ω = <b>${I} A</b>`]});},
+()=>{const [a,b]=P(PAR),r=a*b/(a+b);return mk({q:`Zwei Widerstände R₁ = ${a} Ω und R₂ = ${b} Ω sind parallel geschaltet. Wie gross ist der Gesamtwiderstand?`,a:r,u:'Ω',pre:'R =',hint:'Zwei parallele Widerstände: R = (R₁ · R₂) : (R₁ + R₂).',steps:[`R₁ · R₂ = ${a} · ${b} = ${a*b}`,`R₁ + R₂ = ${a} + ${b} = ${a+b}`,`R = ${a*b} : ${a+b} = <b>${N(r)} Ω</b>`,'Merke: Parallel ist der Gesamtwiderstand immer kleiner als der kleinste Einzelwiderstand.']});},
+()=>{const [d1,d2]=shuffle(DEV.slice()).slice(0,2),Pt=d1[0]+d2[0],I=Pt/230;return mk({q:`An einer Steckdosen-Gruppe (230 V, Leitungsschutzschalter 13 A) laufen gleichzeitig ein ${d1[1]} mit ${N(d1[0])} W und ein ${d2[1]} mit ${N(d2[0])} W. Wie gross ist der Gesamtstrom?`,a:I,u:'A',pre:'I =',hint:'Leistungen zusammenzählen, dann I = P : U.',steps:[`P = ${N(d1[0])} + ${N(d2[0])} = ${N(Pt)} W`,`I = ${N(Pt)} W : 230 V = <b>${N(I)} A</b>`,I>13?'Das ist mehr als 13 A – der Leitungsschutzschalter würde auslösen.':'Das ist nicht mehr als 13 A – der Leitungsschutzschalter hält.']});},
+()=>{const Pw=P([5,8,10,12,20]),pr=P([25,30]),kwh=Pw*8760/1000,cost=kwh*pr/100,rc=Math.round(cost*20)/20;return mk({q:`Ein WLAN-Router braucht ${Pw} W und läuft das ganze Jahr ohne Pause (365 Tage · 24 h = 8760 h). Strompreis: ${pr} Rp./kWh. Wie viel kostet das pro Jahr? (Auf 5 Rappen runden.)`,a:rc,u:'CHF',tol:0.03,money:true,calc:true,hint:'Zuerst kWh pro Jahr: Leistung in kW · 8760 h. Dann mal den Preis.',steps:[`${Pw} W = ${N(Pw/1000)} kW`,`${N(Pw/1000)} kW · 8760 h = ${N(kwh)} kWh`,`${N(kwh)} · ${pr} Rp. = ${N(kwh*pr)} Rp. ≈ <b>${C(rc)} CHF</b>`]});},
+]};
+
+/* ---------- Themen ---------- */
+const TOPICS=[
+ {id:'grund',f:'F1',name:'Grundrechnen',short:'Grund&shy;rechnen',why:'Material zählen, Kabellängen zusammenzählen, Stückzahlen für eine Baustelle berechnen.'},
+ {id:'neg',f:'F2',name:'Negative Zahlen',short:'Minus&shy;zahlen',keys:['−'],why:'Temperaturen auf der Baustelle im Winter, Stockwerke im Untergeschoss.'},
+ {id:'dez',f:'F3',name:'Dezimalzahlen & Runden',short:'Dezi&shy;mal&shy;zahlen',why:'Preise in Franken und Rappen, Messwerte wie 1.5 mm² oder 0.4 A.'},
+ {id:'bruch',f:'F4',name:'Brüche',short:'Brüche',keys:['/'],why:'Arbeitszeit wie ¾ Stunde, Teile einer Kabelrolle.'},
+ {id:'proz',f:'F5',name:'Prozent',short:'Prozent',why:'Rabatte beim Grosshändler, Offerten mit MWST.'},
+ {id:'drei',f:'F6',name:'Dreisatz',short:'Dreisatz',why:'Materialkosten hochrechnen, Arbeitszeit für eine Baustelle planen.'},
+ {id:'einh',f:'F7',name:'Masseinheiten',short:'Ein&shy;heiten',why:'mm² beim Kabelquerschnitt, kW bei Geräten, kWh auf der Stromrechnung, mA bei Fehlerstrom-Schutzschaltern.'},
+ {id:'gleich',f:'F8',name:'Gleichungen & Formeln',short:'Glei&shy;chun&shy;gen',keys:['−'],why:'Formeln wie U = R · I umstellen – das brauchst du in der Berufsschule fast jede Woche.'},
+ {id:'geo',f:'F9',name:'Geometrie',short:'Geo&shy;metrie',why:'Länge von Kabelkanälen, Raumflächen, Leiterquerschnitt eines Drahtes.'},
+ {id:'elek',f:'F10',name:'Elektro-Praxis',short:'Elektro',why:'Spannung, Strom, Leistung und Stromkosten – der Kern deines zukünftigen Berufs.'},
+];
+const TOPIC={};TOPICS.forEach(t=>TOPIC[t.id]=t);
+function gen(t,l){const it=P(GEN[t][l])();it.t=t;it.l=l;return it;}
+
+/* ---------- Erklärungen ---------- */
+const EX={
+grund:`<div class="rule"><h3>Reihenfolge</h3><p>1. Klammern &nbsp;→&nbsp; 2. Punkt (× und :) &nbsp;→&nbsp; 3. Strich (+ und −)</p><p class="ex">5 + 3 × 4 = 5 + 12 = 17 &nbsp;(nicht 32!)</p></div>
+<div class="rule"><h3>Zerlegen beim Malrechnen</h3><p class="ex">47 × 6 = 40 × 6 + 7 × 6 = 240 + 42 = 282</p></div>
+<div class="rule"><h3>Zerlegen beim Teilen</h3><p class="ex">168 : 7 → 140 : 7 = 20 und 28 : 7 = 4 → 24</p></div>
+<div class="rule"><h3>Probe machen</h3><p>Teilen kontrollierst du mit Malrechnen: 24 × 7 = 168 ✓</p></div>`,
+neg:`<div class="rule"><h3>Der Zahlenstrahl</h3><p>Links von 0 sind die negativen Zahlen. Je weiter links, desto kleiner: −8 ist kleiner als −2.</p><p class="ex">… −3 −2 −1 0 1 2 3 …</p></div>
+<div class="rule"><h3>Plus und Minus</h3><p>Plus eine negative Zahl = minus. Minus eine negative Zahl = plus.</p><p class="ex">5 + (−3) = 5 − 3 = 2<br>4 − (−6) = 4 + 6 = 10</p></div>
+<div class="rule"><h3>Mal und geteilt</h3><p>Gleiche Vorzeichen → Ergebnis positiv. Verschiedene Vorzeichen → Ergebnis negativ.</p><p class="ex">(−3) · (−4) = 12 &nbsp;&nbsp; (−3) · 4 = −12 &nbsp;&nbsp; (−20) : 5 = −4</p></div>`,
+dez:`<div class="rule"><h3>Plus und Minus</h3><p>Komma unter Komma schreiben. Fehlende Stellen mit 0 auffüllen.</p><p class="ex">3.75 + 1.4 = 3.75 + 1.40 = 5.15</p></div>
+<div class="rule"><h3>Mal 10, 100, 1000</h3><p>× 10: Komma 1 Stelle nach rechts. : 10: Komma 1 Stelle nach links.</p><p class="ex">2.45 × 100 = 245 &nbsp;&nbsp; 36.5 : 10 = 3.65</p></div>
+<div class="rule"><h3>Dezimalzahlen malnehmen</h3><p>Ohne Komma rechnen. Dann die Stellen nach dem Komma zusammenzählen.</p><p class="ex">0.4 × 1.5 → 4 × 15 = 60 → 2 Stellen → 0.60</p></div>
+<div class="rule"><h3>Durch eine Dezimalzahl teilen</h3><p>Beide Zahlen gleich erweitern, bis der Teiler ganz ist.</p><p class="ex">7.5 : 0.5 = 75 : 5 = 15</p></div>
+<div class="rule"><h3>Runden</h3><p>Schau die Ziffer nach der Rundungsstelle an: 0–4 abrunden, 5–9 aufrunden.</p><p class="ex">2.346 ≈ 2.35 &nbsp;&nbsp; 2.344 ≈ 2.34</p></div>`,
+bruch:`<div class="rule"><h3>Bruch von einer Zahl</h3><p>Durch den Nenner teilen, mal den Zähler.</p><p class="ex">${fr(3,4)} von 80: 80 : 4 = 20, 20 × 3 = 60</p></div>
+<div class="rule"><h3>Kürzen</h3><p>Zähler und Nenner durch die gleiche Zahl teilen.</p><p class="ex">${fr(6,8)} = ${fr(3,4)} &nbsp;(beide : 2)</p></div>
+<div class="rule"><h3>Plus und Minus</h3><p>Gleicher Nenner: Zähler rechnen. Sonst zuerst die Nenner gleich machen (erweitern).</p><p class="ex">${fr(1,2)} + ${fr(1,4)} = ${fr(2,4)} + ${fr(1,4)} = ${fr(3,4)}</p></div>
+<div class="rule"><h3>Mal und geteilt</h3><p>Mal: Zähler × Zähler, Nenner × Nenner. Geteilt: mit dem Kehrwert malnehmen.</p><p class="ex">${fr(2,3)} · ${fr(3,4)} = ${fr(6,12)} = ${fr(1,2)} &nbsp;&nbsp; ${fr(1,2)} : ${fr(1,4)} = ${fr(1,2)} · ${fr(4,1)} = 2</p></div>
+<div class="rule"><h3>Auswendig lernen</h3><table class="mini"><tr><th>Bruch</th><td>${fr(1,2)}</td><td>${fr(1,4)}</td><td>${fr(3,4)}</td><td>${fr(1,5)}</td><td>${fr(1,10)}</td></tr><tr><th>Dezimal</th><td>0.5</td><td>0.25</td><td>0.75</td><td>0.2</td><td>0.1</td></tr><tr><th>Prozent</th><td>50 %</td><td>25 %</td><td>75 %</td><td>20 %</td><td>10 %</td></tr></table></div>`,
+proz:`<div class="rule"><h3>Was ist Prozent?</h3><p>Prozent heisst «von hundert». 1 % = ${fr(1,100)}.</p></div>
+<div class="rule"><h3>Schnelle Tricks</h3><p class="ex">10 % = durch 10 &nbsp;·&nbsp; 50 % = Hälfte &nbsp;·&nbsp; 25 % = Viertel &nbsp;·&nbsp; 1 % = durch 100</p><p class="ex">20 % von 350 = 2 × 35 = 70</p></div>
+<div class="rule"><h3>Die drei Grundaufgaben</h3><p>Prozentwert: Ganzes : 100 × Prozent<br>Prozentsatz: Teil : Ganzes × 100<br>Grundwert: Teil : Prozent × 100</p><p class="ex">30 von 120 → 30 : 120 = 0.25 → 25 %</p></div>
+<div class="rule"><h3>Rabatt und MWST</h3><p>Rabatt wird abgezogen, MWST wird dazugezählt. In der Schweiz beträgt der normale MWST-Satz 8.1 %.</p><p class="ex">200 CHF − 10 % = 200 − 20 = 180 CHF</p></div>`,
+drei:`<div class="rule"><h3>Proportional: je mehr, desto mehr</h3><p>Zuerst auf 1 rechnen, dann auf die gesuchte Menge.</p><p class="ex">3 m kosten 4.50 CHF<br>1 m kostet 4.50 : 3 = 1.50 CHF<br>7 m kosten 7 × 1.50 = 10.50 CHF</p></div>
+<div class="rule"><h3>Umgekehrt: je mehr, desto weniger</h3><p>Hier wird zuerst malgenommen, dann geteilt.</p><p class="ex">4 Monteure brauchen 6 Tage<br>1 Monteur braucht 4 × 6 = 24 Tage<br>3 Monteure brauchen 24 : 3 = 8 Tage</p></div>
+<div class="rule"><h3>Tipp</h3><p>Schreib eine kleine Tabelle mit zwei Spalten. Frag dich zuerst: Wird es mehr oder weniger?</p></div>`,
+einh:`<div class="rule"><h3>Länge</h3><p class="ex">1 km = 1000 m &nbsp;·&nbsp; 1 m = 100 cm &nbsp;·&nbsp; 1 cm = 10 mm</p></div>
+<div class="rule"><h3>Fläche</h3><p>Bei Flächen ist der Faktor «im Quadrat».</p><p class="ex">1 cm² = 100 mm² &nbsp;·&nbsp; 1 dm² = 100 cm² &nbsp;·&nbsp; 1 m² = 10’000 cm²</p></div>
+<div class="rule"><h3>Zeit</h3><p class="ex">1 h = 60 min &nbsp;·&nbsp; 0.5 h = 30 min &nbsp;·&nbsp; 15 min = 0.25 h &nbsp;·&nbsp; 6 min = 0.1 h</p></div>
+<div class="rule"><h3>Vorsilben</h3><p class="ex">k = kilo = 1000 &nbsp;·&nbsp; M = Mega = 1’000’000 &nbsp;·&nbsp; m = milli = ${fr(1,1000)}</p><p class="ex">2.3 kW = 2300 W &nbsp;·&nbsp; 450 mA = 0.45 A &nbsp;·&nbsp; 1.5 kWh = 1500 Wh</p></div>
+<div class="rule"><h3>Merksatz</h3><p>Von gross nach klein: mal. Von klein nach gross: geteilt.</p></div>`,
+gleich:`<div class="rule"><h3>Die Waage</h3><p>Eine Gleichung ist wie eine Waage. Was du links machst, musst du auch rechts machen.</p></div>
+<div class="rule"><h3>Umkehren</h3><p>+ wird mit − weggeschafft, · wird mit : weggeschafft (und umgekehrt).</p><p class="ex">3 · x + 5 = 20 &nbsp;| − 5<br>3 · x = 15 &nbsp;| : 3<br>x = 5</p></div>
+<div class="rule"><h3>Probe</h3><p>Setz dein x ein: 3 · 5 + 5 = 20 ✓</p></div>
+<div class="rule"><h3>Formeldreieck</h3><svg class="tri" viewBox="0 0 160 120" role="img" aria-label="Formeldreieck: U oben, R und I unten"><path d="M80 6 L154 114 L6 114 Z" fill="none" stroke="currentColor" stroke-width="3"/><line x1="34" y1="72" x2="126" y2="72" stroke="currentColor" stroke-width="2"/><line x1="80" y1="72" x2="80" y2="114" stroke="currentColor" stroke-width="2"/><text x="80" y="60" text-anchor="middle" font-size="26" font-weight="700">U</text><text x="54" y="104" text-anchor="middle" font-size="24" font-weight="700">R</text><text x="106" y="104" text-anchor="middle" font-size="24" font-weight="700">I</text></svg><p>Halte den gesuchten Buchstaben zu. Was übrig bleibt, ist die Formel: Übereinander heisst geteilt, nebeneinander heisst mal.</p><p class="ex">I = U : R &nbsp;·&nbsp; R = U : I &nbsp;·&nbsp; U = R · I</p><p>Das gleiche Dreieck funktioniert für P = U · I und W = P · t.</p></div>`,
+geo:`<div class="rule"><h3>Rechteck und Quadrat</h3><p class="ex">Umfang u = 2 · (l + b) &nbsp;·&nbsp; Fläche A = l · b</p><p class="ex">Quadrat: u = 4 · s &nbsp;·&nbsp; A = s · s</p></div>
+<div class="rule"><h3>Kreis (π ≈ 3.14)</h3><p class="ex">Umfang u = d · π &nbsp;·&nbsp; Fläche A = r · r · π &nbsp;(r = d : 2)</p></div>
+<div class="rule"><h3>Zusammengesetzte Flächen</h3><p>Zerlegen in Rechtecke – oder das grosse Rechteck rechnen und das fehlende Stück abziehen.</p></div>
+<div class="rule"><h3>Pythagoras</h3><p>Im rechtwinkligen Dreieck: a² + b² = c². c ist die längste Seite (gegenüber vom rechten Winkel).</p><p class="ex">3² + 4² = 9 + 16 = 25 → c = 5</p></div>
+<div class="rule"><h3>Quader</h3><p class="ex">Volumen V = l · b · h</p></div>
+<div class="rule"><h3>Leiterquerschnitt</h3><p class="ex">A = d · d · π : 4</p><p>Übliche Querschnitte in der Hausinstallation: 1.5 mm², 2.5 mm², 4 mm².</p></div>`,
+elek:`<div class="rule"><h3>Die Grössen</h3><table class="mini"><tr><th>Grösse</th><th>Zeichen</th><th>Einheit</th></tr><tr><td>Spannung</td><td>U</td><td>Volt (V)</td></tr><tr><td>Strom</td><td>I</td><td>Ampere (A)</td></tr><tr><td>Widerstand</td><td>R</td><td>Ohm (Ω)</td></tr><tr><td>Leistung</td><td>P</td><td>Watt (W)</td></tr><tr><td>Energie</td><td>W</td><td>kWh</td></tr></table></div>
+<div class="rule"><h3>Ohmsches Gesetz</h3><p class="ex">U = R · I &nbsp;·&nbsp; I = U : R &nbsp;·&nbsp; R = U : I</p></div>
+<div class="rule"><h3>Leistung</h3><p class="ex">P = U · I &nbsp;·&nbsp; I = P : U</p><p>Im Haushalt ist die Spannung 230 V.</p></div>
+<div class="rule"><h3>Energie und Kosten</h3><p class="ex">W = P · t &nbsp;(kW · h = kWh) &nbsp;·&nbsp; Kosten = kWh × Preis</p><p class="ex">2 kW · 3 h = 6 kWh → 6 × 30 Rp. = 1.80 CHF</p></div>
+<div class="rule"><h3>Schaltungen</h3><p class="ex">Reihe: R = R₁ + R₂ + R₃</p><p class="ex">Parallel (2 Widerstände): R = (R₁ · R₂) : (R₁ + R₂)</p></div>`
+};
+
+/* ---------- Wochenplan ---------- */
+const PLAN=[
+ {t:'grund',goal:'Stufe 1 und 2 schaffen. Jeden Tag Blitzrechnen.'},
+ {t:'neg',goal:'Zahlenstrahl sicher können, Vorzeichen-Regeln lernen.'},
+ {t:'dez',goal:'Komma richtig setzen und sicher runden.'},
+ {t:'einh',goal:'Länge, Zeit und kW/mA umrechnen (Stufe 1–2).'},
+ {t:'bruch',goal:'Kürzen, Bruch von einer Zahl, einfache Plus-Aufgaben.'},
+ {t:'proz',goal:'10 %, 25 %, 50 % im Kopf. Rabatt berechnen.'},
+ {t:'drei',goal:'Immer zuerst auf 1 rechnen. Proportional und umgekehrt unterscheiden.'},
+ {t:'gleich',goal:'Gleichungen lösen und die Formel U = R · I umstellen.'},
+ {t:'geo',goal:'Umfang und Fläche, Kreis, zusammengesetzte Räume.'},
+ {t:'elek',goal:'Ohmsches Gesetz, Leistung, Stromkosten.'},
+ {t:'weak',goal:'Das schwächste Thema auf Stufe 2 bringen, Stufe 3 versuchen.'},
+ {t:'test',goal:'Zwei Prüfungstests machen und das Fehlerheft leeren.'},
+];
+
+/* ---------- Speicher ---------- */
+const KEY='mathe-werkstatt-elektro-v1';
+let S={stats:{},wrong:[],plan:{},blitzBest:0,tests:[],days:[],solved:0};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&typeof s==='object')S=Object.assign(S,s);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function st(t,l){S.stats[t]=S.stats[t]||{};S.stats[t][l]=S.stats[t][l]||{last:[],n:0,ok:0};return S.stats[t][l];}
+function mastered(t,l){const s=S.stats[t]&&S.stats[t][l];return !!s&&s.last.filter(Boolean).length>=8;}
+function nMastered(t){return [1,2,3].filter(l=>mastered(t,l)).length;}
+function sugLevel(t){for(const l of [1,2,3])if(!mastered(t,l))return l;return 3;}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function record(it,ok){const s=st(it.t,it.l);s.last.push(ok?1:0);if(s.last.length>10)s.last.shift();s.n++;if(ok)s.ok++;S.solved++;const d=today();if(!S.days.includes(d)){S.days.push(d);if(S.days.length>400)S.days.shift();}if(!ok)addWrong(it);save();}
+function addWrong(it){if(S.wrong.some(w=>w.q===it.q))return;S.wrong.unshift(it);if(S.wrong.length>40)S.wrong.pop();}
+function streakDays(){const set=new Set(S.days);let n=0;const d=new Date();const key=x=>x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');if(!set.has(key(d)))d.setDate(d.getDate()-1);while(set.has(key(d))){n++;d.setDate(d.getDate()-1);}return n;}
+function weakest(){return TOPICS.slice().sort((a,b)=>{const ma=nMastered(a.id),mb=nMastered(b.id);if(ma!==mb)return ma-mb;const acc=t=>{let n=0,o=0;[1,2,3].forEach(l=>{const s=S.stats[t]&&S.stats[t][l];if(s){n+=s.n;o+=s.ok;}});return n?o/n:-1;};return acc(a.id)-acc(b.id);})[0];}
+function curPlan(){for(let w=0;w<PLAN.length;w++)for(let e=0;e<4;e++)if(!S.plan['w'+(w+1)+'e'+(e+1)])return {w,e};return null;}
+function weekTopic(w){const p=PLAN[w];if(p.t==='weak')return weakest();if(p.t==='test')return null;return TOPIC[p.t];}
+function sessionInfo(w,e){const p=PLAN[w];
+  if(p.t==='test'){const a=[['Prüfungstest','#test',['30 Minuten, 20 Aufgaben','Danach die falschen Aufgaben anschauen']],['Fehlerheft','#fehler',['5 Min Blitzrechnen','15 Min Fehlerheft leer machen']],['Prüfungstest mit Profi-Aufgaben','#test',['30 Minuten, 20 Aufgaben (Stufe 2–3)','Danach die falschen Aufgaben anschauen']],['Schwächstes Thema','#thema-'+weakest().id,['5 Min Blitzrechnen','15 Min '+weakest().name]]][e];return {title:a[0],go:a[1],steps:a[2]};}
+  const tp=weekTopic(w);
+  if(e<3)return {title:tp.name,go:'#thema-'+tp.id,steps:['3 Min Blitzrechnen','12 Min '+tp.name+' (Stufe '+sugLevel(tp.id)+')','5 Min Fehlerheft']};
+  const prev=w>0?weekTopic(w-1):null;return {title:'Wiederholung: '+tp.name,go:'#thema-'+tp.id,steps:['10 Aufgaben '+tp.name,prev?'10 Aufgaben '+prev.name+' (Vorwoche)':'5 Min Blitzrechnen','Fehlerheft']};}
+
+/* ---------- Antwort prüfen ---------- */
+function parseIn(raw,allowFrac){let s=String(raw).replace(/[−–]/g,'-').replace(/[’'`\s]/g,'').replace(/,/g,'.').replace(/[^0-9.\-\/]/g,'');if(!s)return null;
+  const num=x=>/^-?(\d+\.?\d*|\.\d+)$/.test(x)?parseFloat(x):NaN;
+  if(s.includes('/')){if(!allowFrac)return {err:'frac'};const parts=s.split('/');if(parts.length!==2)return null;const n=num(parts[0]),d=num(parts[1]);if(isNaN(n)||isNaN(d)||d===0)return null;return {v:n/d,n,d,frac:true};}
+  const v=num(s);if(isNaN(v))return null;return {v};}
+function check(it,raw){
+  if(it.kind==='mc')return {ok:raw===it.ci};
+  const p=parseIn(raw,it.kind==='frac'||!it.noFrac);
+  if(!p)return {ok:false,invalid:true,msg:'Bitte gib eine Zahl ein, zum Beispiel 12 oder 3.5.'};
+  if(p.err)return {ok:false,invalid:true,msg:'Bitte als Dezimalzahl eingeben, nicht als Bruch.'};
+  if(it.kind==='frac'){const target=it.fa[0]/it.fa[1];
+    if(it.reduced){if(!p.frac&&it.fa[1]!==1)return {ok:false,invalid:true,msg:'Bitte als Bruch eingeben, zum Beispiel 3/4.'};
+      if(Math.abs(p.v-target)>1e-9)return {ok:false};
+      if(p.frac&&(gcd(p.n,p.d)!==1||p.d<0))return {ok:false,invalid:true,msg:'Der Wert stimmt – aber du kannst noch weiter kürzen.'};
+      return {ok:true};}
+    return {ok:Math.abs(p.v-target)<1e-4};}
+  const tol=Math.max(it.tol||0,it.rel?Math.abs(it.a)*it.rel:0,1e-6);
+  return {ok:Math.abs(p.v-it.a)<=tol};}
+function ansText(it){if(it.kind==='mc')return it.choices[it.ci];if(it.at)return it.at;return (it.money?C(it.a):N(it.a))+(it.u?' '+it.u:'');}
+
+/* ---------- Ansicht: Start ---------- */
+const app=document.getElementById('app');
+let CUR=null,T=null,B=null,timer=null,resetArm=false,submitArm=false;
+const wires='<div class="wires" aria-hidden="true"><i></i><i></i><i></i></div>';
+function topbar(){return `<div class="topbar"><a href="#start" class="back">← Übersicht</a><a href="#start" aria-label="Zur Startseite">Mathe-Werkstatt <span>Elektro</span></a></div>`;}
+
+function breakerHTML(tp){const m=[1,2,3].map(l=>mastered(tp.id,l)),tried=[1,2,3].map(l=>{const s=S.stats[tp.id]&&S.stats[tp.id][l];return !!s&&s.n>0;}),on=m[0]&&m[1];
+  return `<a class="brk${on?' on':''}" href="#thema-${tp.id}" aria-label="${tp.name}: ${on?'eingeschaltet':'ausgeschaltet'}, ${m.filter(Boolean).length} von 3 Stufen geschafft"><span class="brk-f">${tp.f}</span><span class="brk-sw" aria-hidden="true">I<span class="brk-slot"><span class="brk-lever"></span></span>0</span><span class="brk-leds" aria-hidden="true">${[0,1,2].map(i=>`<i class="led ${m[i]?'ok':(tried[i]?'busy':'')}"></i>`).join('')}</span><span class="brk-name">${tp.short}</span></a>`;}
+
+function viewHome(){
+  const cp=curPlan(),on=TOPICS.filter(t=>mastered(t.id,1)&&mastered(t.id,2)).length;
+  let todayHTML;
+  if(cp){const si=sessionInfo(cp.w,cp.e);
+    todayHTML=`<section class="card today" aria-labelledby="h-today"><span class="label">Heute dran · Woche ${cp.w+1} von 12 · Einheit ${cp.e+1} von 4</span><h2 id="h-today">${si.title}</h2><ol>${si.steps.map(s=>`<li>${s}</li>`).join('')}</ol><div class="row"><a class="btn primary" href="${si.go}">Los geht’s</a><a class="btn ghost" href="#blitz">Blitzrechnen</a><button class="btn ghost" data-act="sessdone" data-k="w${cp.w+1}e${cp.e+1}">Einheit erledigt ✓</button></div></section>`;}
+  else todayHTML=`<section class="card today"><span class="label">Plan geschafft</span><h2>Alle 12 Wochen erledigt!</h2><p>Mach weiter mit Prüfungstests und dem Fehlerheft, damit alles sitzt.</p><div class="row"><a class="btn primary" href="#test">Prüfungstest</a></div></section>`;
+  app.innerHTML=`
+  <header class="hero"><span class="eyebrow">2. Sek · Vorbereitung auf die Lehre</span><h1>Mathe-Werkstatt <span>Elektro</span></h1><p>Mathe-Training für die Lehre als Elektroinstallateur/in EFZ. Jeden Tag 20 Minuten, Schritt für Schritt – mit Erklärungen und Lösungsweg zu jeder Aufgabe.</p>${wires}</header>
+  ${todayHTML}
+  ${installHTML()}
+  <div class="tiles"><div class="tile"><b>${N(S.solved)}</b><span>Aufgaben gerechnet</span></div><div class="tile"><b>${streakDays()}</b><span>Tage in Folge geübt</span></div><div class="tile"><b>${on}/10</b><span>Sicherungen eingeschaltet</span></div></div>
+  <section aria-labelledby="h-panel"><h2 id="h-panel">Dein Verteilerkasten</h2><p class="muted">Jedes Thema ist eine Sicherung. Tippe darauf, um zu üben. Wenn du Stufe 1 und 2 schaffst, geht der Hebel nach oben.</p>
+  <div class="panel"><div class="panel-head"><span>Verteiler Mathe</span><span>${on} von 10 ein</span></div><div class="rail">${TOPICS.map(breakerHTML).join('')}</div>
+  <div class="legend"><span><i class="led busy"></i> Stufe angefangen</span><span><i class="led ok"></i> Stufe geschafft (8 von 10 richtig)</span><span>Lämpchen von links: Stufe 1, 2, 3</span></div></div></section>
+  <section aria-labelledby="h-tools"><h2 id="h-tools" class="sr">Werkzeuge</h2><div class="tools">
+  <a class="tool" href="#test"><b>Prüfungstest</b><span>20 Aufgaben, 30 Minuten – wie bei einem Eignungstest.</span></a>
+  <a class="tool" href="#blitz"><b>Blitzrechnen</b><span>60 Sekunden Kopfrechnen. Bestwert: ${S.blitzBest}</span></a>
+  <a class="tool" href="#fehler"><b>Fehlerheft</b><span>${S.wrong.length?S.wrong.length+' Aufgabe'+(S.wrong.length===1?'':'n')+' zum Wiederholen':'Noch leer'}</span></a>
+  <a class="tool" href="#plan"><b>Wochenplan</b><span>12 Wochen · 4 × 20 Min. Mit Tipps für Eltern.</span></a>
+  </div></section>`;
+}
+
+/* ---------- Ansicht: Thema ---------- */
+function viewTopic(id){const tp=TOPIC[id];
+  if(!CUR||CUR.mode!=='topic'||CUR.t!==id)CUR={mode:'topic',t:id,l:sugLevel(id),tab:'ueben',streak:0};
+  app.innerHTML=`${topbar()}<header class="t-head"><span class="fuse">${tp.f}</span><h1>${tp.name}</h1><p class="why"><b>Im Beruf:</b> ${tp.why}</p></header>
+  <div class="tabs" role="tablist"><button role="tab" id="tab-ueben" data-act="tab" data-tab="ueben" aria-selected="${CUR.tab==='ueben'}">Üben</button><button role="tab" id="tab-erkl" data-act="tab" data-tab="erkl" aria-selected="${CUR.tab==='erkl'}">So geht’s</button></div>
+  <div id="panel"></div>`;
+  renderTopicPanel();}
+function levelsHTML(){const t=CUR.t;return `<div class="levels">${[1,2,3].map(l=>{const s=(S.stats[t]&&S.stats[t][l])||{last:[]};const dots=Array.from({length:10},(_,i)=>{const v=s.last[i];return `<i class="${v===1?'y':v===0?'n':''}"></i>`;}).join('');return `<button class="lvl${mastered(t,l)?' done':''}" data-act="lvl" data-l="${l}" aria-pressed="${CUR.l===l}">Stufe ${l}<small>${['Grundlagen','Standard','Profi'][l-1]}${mastered(t,l)?' ✓':''}</small><span class="meter" aria-hidden="true">${dots}</span></button>`;}).join('')}</div><p class="lvl-info">Die Kästchen zeigen deine letzten 10 Aufgaben. 8 richtige = Stufe geschafft.</p>`;}
+function renderTopicPanel(){const panel=document.getElementById('panel');
+  document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===CUR.tab));
+  if(CUR.tab==='erkl'){panel.innerHTML=`<div class="expl">${EX[CUR.t]}<div class="rule job"><h3>Wozu brauche ich das?</h3><p>${TOPIC[CUR.t].why}</p></div><div class="row"><button class="btn primary" data-act="tab" data-tab="ueben">Jetzt üben</button></div></div>`;return;}
+  panel.innerHTML=`<div id="lv">${levelsHTML()}</div><div class="card qcard" id="qcard"></div>`;
+  if(!CUR.it||CUR.it.l!==CUR.l||CUR.it.t!==CUR.t)newQ();else renderQ();}
+function newQ(){if(CUR.mode==='fehler'){if(!S.wrong.length){CUR.it=null;renderQ();return;}CUR.it=JSON.parse(JSON.stringify(S.wrong[0]));}
+  else{let it,g=0;do{it=gen(CUR.t,CUR.l);g++;}while(CUR.it&&it.q===CUR.it.q&&g<6);CUR.it=it;}
+  CUR.tries=0;CUR.done=false;CUR.hint=false;renderQ();}
+function inputHTML(it,id,val){
+  if(it.kind==='mc')return `<div class="mc" role="group" aria-label="Antwort wählen">${it.choices.map((c,i)=>`<button type="button" data-act="mc" data-i="${i}" class="${val===i?'sel':''}">${c}</button>`).join('')}</div>`;
+  const keys=(TOPIC[it.t].keys||[]).map(k=>`<button type="button" data-act="key" data-k="${k}" aria-label="${k==='−'?'Minuszeichen':'Bruchstrich'} einfügen">${k}</button>`).join('');
+  return `<form class="ans" id="ansform" autocomplete="off"><span class="pre">${it.pre||''}</span><input id="${id}" inputmode="decimal" enterkeyhint="done" placeholder="Antwort" aria-label="Deine Antwort" value="${val!=null?esc(val):''}"><span class="unit">${it.u||''}</span>${id==='ans'?'<button class="btn primary" type="submit">Prüfen</button>':''}</form>${keys?`<div class="keys">${keys}</div>`:''}`;}
+function renderQ(){const box=document.getElementById('qcard');if(!box)return;const it=CUR.it;
+  if(!it){box.innerHTML=`<h2>Fehlerheft ist leer</h2><p>Super! Alle Fehler sind verbessert. Falsch gelöste Aufgaben kommen automatisch wieder hierher.</p><div class="row"><a class="btn primary" href="#start">Zur Übersicht</a></div>`;return;}
+  box.innerHTML=`<div class="qhead"><span>${CUR.mode==='fehler'?TOPIC[it.t].name+' · ':''}Stufe ${it.l}</span>${it.calc?'<span class="chip calc">Taschenrechner erlaubt</span>':''}<span class="streak">${CUR.streak>=3?CUR.streak+' richtig in Folge!':''}</span></div>
+  <div class="qtext">${it.q}</div>${it.svg||''}${inputHTML(it,'ans',null)}
+  <div class="row"><button class="btn small ghost" data-act="hint" type="button">Tipp</button><button class="btn small ghost" data-act="reveal" type="button">Lösungsweg zeigen</button></div>
+  <div class="fb" id="fb" aria-live="polite"></div>`;
+  const inp=document.getElementById('ans');if(inp&&window.matchMedia('(pointer:fine)').matches)inp.focus();}
+function stepsHTML(it){return `<ol class="steps">${it.steps.map(s=>`<li>${s}</li>`).join('')}</ol>`;}
+const PRAISE=['Richtig!','Stimmt genau!','Sauber gerechnet!','Korrekt – weiter so!','Genau so!'];
+function finishQ(ok,viaReveal){const it=CUR.it,fb=document.getElementById('fb');CUR.done=true;
+  record(it,ok);
+  if(CUR.mode==='fehler'){if(ok)S.wrong=S.wrong.filter(w=>w.q!==it.q);else{const i=S.wrong.findIndex(w=>w.q===it.q);if(i>=0){const [w]=S.wrong.splice(i,1);S.wrong.push(w);}}save();}
+  CUR.streak=ok?CUR.streak+1:0;
+  const head=ok?`<div class="msg good"><strong>${P(PRAISE)}</strong>${CUR.mode==='fehler'?'Diese Aufgabe ist aus dem Fehlerheft gestrichen.':'So kann man rechnen:'}${stepsHTML(it)}</div>`
+    :`<div class="msg bad"><strong>${viaReveal?'Lösungsweg':'Leider nicht richtig'}</strong>Richtig ist: <b>${ansText(it)}</b>${stepsHTML(it)}<p class="muted" style="margin-top:6px">${CUR.mode==='fehler'?'Die Aufgabe bleibt im Fehlerheft.':'Die Aufgabe kommt ins Fehlerheft.'}</p></div>`;
+  fb.innerHTML=head+`<div class="row"><button class="btn primary" data-act="next" id="nextbtn" type="button">Nächste Aufgabe →</button></div>`;
+  box_lock();
+  const lv=document.getElementById('lv');if(lv&&CUR.mode==='topic')lv.innerHTML=levelsHTML();
+  document.getElementById('nextbtn').focus({preventScroll:true});}
+function box_lock(){document.querySelectorAll('#qcard input, #qcard .mc button, #qcard .keys button, #qcard form .btn, #qcard [data-act="hint"], #qcard [data-act="reveal"]').forEach(el=>el.disabled=true);}
+function submitAnswer(raw){const it=CUR.it,fb=document.getElementById('fb');if(!it||CUR.done)return;
+  const res=check(it,raw);
+  if(res.invalid){fb.innerHTML=`<div class="msg hint"><strong>Kurz prüfen</strong>${res.msg}</div>`;return;}
+  if(it.kind==='mc'){document.querySelectorAll('#qcard .mc button').forEach((b,i)=>{if(i===it.ci)b.classList.add('right');else if(i===raw)b.classList.add('wrong');});finishQ(res.ok);return;}
+  if(res.ok){finishQ(true);return;}
+  CUR.tries++;
+  if(CUR.tries<2){fb.innerHTML=`<div class="msg bad"><strong>Noch nicht ganz</strong>Schau nochmal genau hin – du hast einen zweiten Versuch.</div><div class="msg hint"><strong>Tipp</strong>${it.hint}</div>`;const inp=document.getElementById('ans');inp.select();}
+  else finishQ(false);}
+
+/* ---------- Ansicht: Fehlerheft ---------- */
+function viewFehler(){
+  const by={};S.wrong.forEach(w=>{by[w.t]=(by[w.t]||0)+1;});
+  app.innerHTML=`${topbar()}<header class="t-head"><h1>Fehlerheft</h1><p class="why">Hier landen alle Aufgaben, die nicht geklappt haben. Wenn du eine richtig löst, wird sie gestrichen.</p></header>
+  ${S.wrong.length?`<div class="row">${Object.keys(by).map(t=>`<span class="chip">${TOPIC[t].name}: ${by[t]}</span>`).join('')}</div>`:''}
+  <div class="card qcard" id="qcard"></div>
+  ${S.wrong.length?`<div class="row"><button class="btn small danger" data-act="clearwrong" type="button">${resetArm?'Wirklich alles löschen?':'Fehlerheft leeren'}</button></div>`:''}`;
+  CUR={mode:'fehler',streak:0};newQ();}
+
+/* ---------- Ansicht: Prüfungstest ---------- */
+function makeTest(pro){const items=[];TOPICS.forEach(tp=>{(pro?[2,3]:[1,2]).forEach(l=>{let it,g=0;do{it=gen(tp.id,l);g++;}while(it.calc&&g<30);items.push(it);});});shuffle(items);return {items,ans:items.map(()=>null),idx:0,end:Date.now()+30*60*1000,pro,done:false};}
+function viewTest(){if(!T)testSetup();else if(T.done)testResult();else testRun();}
+function testSetup(){const hist=S.tests.slice(-8);
+  app.innerHTML=`${topbar()}<header class="t-head"><h1>Prüfungstest</h1><p class="why">Trainiert das Format von Eignungstests: viele Aufgaben, wenig Zeit, ohne Taschenrechner. Das Ergebnis siehst du erst am Schluss.</p></header>
+  <div class="card"><h2>So läuft es</h2><ol class="steps"><li>20 Aufgaben aus allen 10 Themen</li><li>30 Minuten Zeit – die Uhr läuft oben mit</li><li>Du kannst Aufgaben überspringen und später zurückkommen</li><li>Am Schluss: Punkte, Lösungswege und welche Themen du üben solltest</li></ol>
+  <div class="row"><button class="btn primary" data-act="tstart" data-pro="0" type="button">Start: Grundlagen (Stufe 1–2)</button><button class="btn" data-act="tstart" data-pro="1" type="button">Start: Profi (Stufe 2–3)</button></div></div>
+  ${hist.length?`<section><h2>Deine letzten Tests</h2><div class="card"><div class="hist" role="img" aria-label="Ergebnisse der letzten Tests">${hist.map(h=>`<div style="height:${Math.max(4,h.s/h.n*100)}%"><span>${h.s}</span></div>`).join('')}</div><p class="muted">Punkte von 20 · ${hist.map(h=>h.pro?'Profi':'Grundlagen').slice(-1)[0]==='Profi'?'letzter Test: Profi':'letzter Test: Grundlagen'}</p></div></section>`:''}`;}
+function fmtTime(ms){const s=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function testRun(){const it=T.items[T.idx],open=T.ans.filter(a=>a==null||a==='').length;
+  app.innerHTML=`${topbar()}<div class="testbar"><span>Aufgabe ${T.idx+1} von 20</span><span class="timer" id="timer">${fmtTime(T.end-Date.now())}</span></div>
+  <div class="jump" aria-label="Zu Aufgabe springen">${T.items.map((_,i)=>`<button type="button" data-act="tjump" data-i="${i}" class="${i===T.idx?'cur ':''}${T.ans[i]!=null&&T.ans[i]!==''?'done':''}" aria-label="Aufgabe ${i+1}">${i+1}</button>`).join('')}</div>
+  <div class="card qcard" id="tcard"><div class="qhead"><span>${TOPIC[it.t].name}</span></div><div class="qtext">${it.q}</div>${it.svg||''}${inputHTML(it,'tans',T.ans[T.idx])}</div>
+  <div class="row"><button class="btn ghost" data-act="tprev" type="button" ${T.idx===0?'disabled':''}>← Zurück</button><button class="btn primary" data-act="tnext" type="button">${T.idx===19?'Zur Übersicht':'Weiter →'}</button></div>
+  <div class="row"><button class="btn${submitArm?' danger':''}" data-act="tfinish" type="button">${submitArm&&open?`Wirklich abgeben? ${open} Aufgabe${open===1?'':'n'} offen`:'Test abgeben'}</button></div>`;
+  const inp=document.getElementById('tans');if(inp){inp.addEventListener('input',()=>{T.ans[T.idx]=inp.value;});if(window.matchMedia('(pointer:fine)').matches)inp.focus();}
+  clearInterval(timer);timer=setInterval(()=>{const el=document.getElementById('timer');const left=T.end-Date.now();if(left<=0){clearInterval(timer);testFinish();return;}if(el){el.textContent=fmtTime(left);el.classList.toggle('low',left<3*60*1000);}},1000);}
+function testFinish(){clearInterval(timer);T.res=T.items.map((it,i)=>{const a=T.ans[i];if(a==null||a==='')return false;if(it.kind==='mc')return a===it.ci;const r=check(it,a);return !!r.ok;});
+  T.items.forEach((it,i)=>record(it,T.res[i]));T.done=true;const s=T.res.filter(Boolean).length;S.tests.push({d:today(),s,n:20,pro:T.pro});if(S.tests.length>30)S.tests.shift();save();submitArm=false;testResult();window.scrollTo(0,0);}
+function testResult(){const s=T.res.filter(Boolean).length,pct=Math.round(s/20*100);
+  const verdict=pct>=80?['Sehr gut','Du bist auf einem starken Weg zum Eignungstest.']:pct>=60?['Gut','Ein paar Lücken – schau dir die roten Themen an.']:['Weiter üben','Die Themen unten zeigen dir, wo du am meisten gewinnen kannst.'];
+  const per=TOPICS.map(tp=>{const idx=T.items.map((it,i)=>it.t===tp.id?i:-1).filter(i=>i>=0);return {tp,ok:idx.filter(i=>T.res[i]).length,n:idx.length};});
+  app.innerHTML=`${topbar()}<header class="t-head"><h1>Testergebnis</h1></header>
+  <div class="card"><div class="row" style="align-items:flex-end;gap:16px"><span class="big">${s}<span style="font-size:.45em;color:var(--muted)"> / 20</span></span><div><h2>${verdict[0]}</h2><p>${verdict[1]}</p></div></div>
+  <div class="bars">${per.map(p=>{const r=p.ok/p.n;return `<div class="bar-row"><a href="#thema-${p.tp.id}">${p.tp.name}</a><div class="track"><div class="fill ${r===1?'':r>=0.5?'mid':'low'}" style="width:${Math.max(4,r*100)}%"></div></div><span>${p.ok}/${p.n}</span></div>`;}).join('')}</div>
+  <div class="row"><button class="btn primary" data-act="tnew" type="button">Neuen Test starten</button><a class="btn ghost" href="#fehler">Zum Fehlerheft</a></div></div>
+  <section><h2>Alle Aufgaben</h2><div class="res-list">${T.items.map((it,i)=>{const a=T.ans[i],given=(a==null||a==='')?'– (keine Antwort)':(it.kind==='mc'?it.choices[a]:esc(a)+(it.u?' '+it.u:''));return `<details class="res-item${T.res[i]?'':' no'}"><summary><span class="muted">${i+1}. ${TOPIC[it.t].name} · ${T.res[i]?'richtig':'falsch'}</span><span class="qtext">${it.q}</span><span>Deine Antwort: <b>${given}</b>${T.res[i]?'':` · Richtig: <b>${ansText(it)}</b>`}</span></summary>${stepsHTML(it)}</details>`;}).join('')}</div></section>`;}
+
+/* ---------- Ansicht: Blitzrechnen ---------- */
+function genBlitz(){const t=R(0,4);
+  if(t===0){const a=R(2,10),b=R(2,10);return {q:`${a} × ${b}`,a:a*b};}
+  if(t===1){const a=R(2,10),b=R(2,10);return {q:`${a*b} : ${a}`,a:b};}
+  if(t===2){const a=R(11,79),b=R(11,99-a);return {q:`${a} + ${b}`,a:a+b};}
+  if(t===3){const a=R(30,99),b=R(11,a-1);return {q:`${a} − ${b}`,a:a-b};}
+  const a=R(2,99),f=P([10,100]);return {q:`${a} × ${f}`,a:a*f};}
+function viewBlitz(){if(!B||B.state==='setup'){B={state:'setup'};
+  app.innerHTML=`${topbar()}<header class="t-head"><h1>Blitzrechnen</h1><p class="why">60 Sekunden Kopfrechnen: Einmaleins, Plus, Minus, mal 10 und 100. Tippe die Antwort und drücke Enter.</p></header>
+  <div class="card"><p>Dein Bestwert: <b>${S.blitzBest}</b> richtige Aufgaben</p><div class="row"><button class="btn primary" data-act="bstart" type="button">Start (60 Sekunden)</button></div></div>`;return;}
+  if(B.state==='run'){app.innerHTML=`${topbar()}<div class="testbar"><span>Richtig: <b id="bok">${B.ok}</b></span><span class="timer" id="btime">60</span></div><div class="tbar"><div id="bbar" style="width:100%"></div></div>
+  <div class="card" id="bcard"><div class="blitz-q" id="bq">${B.q.q}</div><form class="ans" id="bform" autocomplete="off"><span class="pre"></span><input id="bans" inputmode="numeric" enterkeyhint="next" aria-label="Antwort"><span class="unit"></span><button class="btn primary" type="submit">OK</button></form></div>`;
+  document.getElementById('bans').focus();
+  clearInterval(timer);timer=setInterval(()=>{const left=B.end-Date.now();if(left<=0){clearInterval(timer);B.state='end';if(B.ok>S.blitzBest){S.blitzBest=B.ok;B.rec=true;}const d=today();if(!S.days.includes(d))S.days.push(d);save();viewBlitz();return;}const bt=document.getElementById('btime'),bb=document.getElementById('bbar');if(bt)bt.textContent=Math.ceil(left/1000);if(bb)bb.style.width=(left/600)+'%';},200);return;}
+  app.innerHTML=`${topbar()}<header class="t-head"><h1>Blitzrechnen</h1></header><div class="card"><span class="big">${B.ok}</span><h2>${B.rec?'Neuer Bestwert!':'richtige Aufgaben'}</h2><p class="muted">${B.bad} falsch · Bestwert: ${S.blitzBest}</p><div class="row"><button class="btn primary" data-act="bstart" type="button">Nochmal</button><a class="btn ghost" href="#start">Zur Übersicht</a></div></div>`;}
+
+/* ---------- Ansicht: Wochenplan ---------- */
+function viewPlan(){const cp=curPlan();
+  app.innerHTML=`${topbar()}<header class="t-head"><h1>Wochenplan</h1><p class="why">12 Wochen · 4 Einheiten pro Woche · je 20 Minuten. Am besten an festen Tagen, zum Beispiel Mo, Di, Do und Sa. Wer schneller ist, darf vorspringen. Wer länger braucht, bleibt eine Woche länger beim Thema.</p></header>
+  <div class="card"><h3>Eine Einheit (20 Minuten)</h3><ol class="steps"><li><b>3 Min Blitzrechnen</b> – Kopf aufwärmen</li><li><b>12 Min Thema der Woche</b> – zuerst «So geht’s» lesen, dann üben</li><li><b>5 Min Fehlerheft</b> – alte Fehler verbessern</li></ol><p class="muted">Einheit 4 jeder Woche ist eine Wiederholung mit dem Thema der Vorwoche.</p></div>
+  <div class="weeks">${PLAN.map((p,w)=>{const tp=weekTopic(w),title=p.t==='test'?'Prüfungstraining':p.t==='weak'?'Schwächstes Thema: '+tp.name:tp.name,link=p.t==='test'?'#test':'#thema-'+tp.id,done=[1,2,3,4].every(e=>S.plan['w'+(w+1)+'e'+e]);
+    return `<article class="week${cp&&cp.w===w?' now':''}${done?' fin':''}"><header><span class="wk">Woche ${w+1}</span><h3>${title}</h3><a href="${link}">Üben →</a></header><p class="muted">${p.goal}</p><div class="sess">${[1,2,3,4].map(e=>{const k='w'+(w+1)+'e'+e;return `<label for="${k}"><input type="checkbox" id="${k}" data-act="plan" data-k="${k}" ${S.plan[k]?'checked':''}> Einheit ${e}</label>`;}).join('')}</div></article>`;}).join('')}</div>
+  <section aria-labelledby="h-tips"><h2 id="h-tips">Tipps für Eltern</h2><div class="card"><ul class="tips">
+  <li><b>Kurz und regelmässig.</b> 4 × 20 Minuten pro Woche bringen mehr als zwei Stunden am Sonntag.</li>
+  <li><b>Ohne Taschenrechner üben.</b> Nur bei Aufgaben mit dem Hinweis «Taschenrechner erlaubt» darf er benutzt werden. Kopfrechnen ist in Eignungstests und auf der Baustelle gefragt.</li>
+  <li><b>Ausdauer loben, nicht nur Resultate.</b> Fehler sind normal. Sie landen im Fehlerheft und werden später wiederholt.</li>
+  <li><b>Lösungsweg laut erklären lassen.</b> Wer erklären kann, wie er gerechnet hat, hat es verstanden.</li>
+  <li><b>Mathe im Alltag.</b> Rabatte im Laden ausrechnen, gemeinsam die Stromrechnung anschauen (kWh, Rappen), beim Kochen Mengen umrechnen.</li>
+  <li><b>Eignungstest.</b> Viele Lehrbetriebe verlangen einen Test wie Multicheck oder Basic-Check. Der Prüfungstest hier trainiert das Format «viele Aufgaben, wenig Zeit».</li>
+  <li><b>Schnupperlehre.</b> Ein paar Tage als Elektroinstallateur/in zeigen, wofür man Mathe braucht – das motiviert mehr als jede Erklärung.</li>
+  <li><b>Mit der Lehrperson reden.</b> Sie weiss, welche Themen in der Klasse gerade dran sind, und kann den Plan anpassen.</li>
+  </ul></div></section>
+  <section><h2>Fortschritt</h2><div class="card"><p class="muted">Der Fortschritt wird auf diesem Gerät gespeichert, nicht im Internet. Wer auf einem anderen Gerät weiterüben will, kann ihn mit einem Code übertragen.</p>
+  <h3>Auf ein anderes Gerät übertragen</h3>
+  <ol class="steps"><li>Hier auf «Code erstellen» tippen und den Code kopieren.</li><li>Den Code an sich selbst schicken (z. B. per WhatsApp oder E-Mail).</li><li>Auf dem anderen Gerät die App öffnen, Wochenplan → Code einfügen → «Code übernehmen».</li></ol>
+  <div class="row"><button class="btn small" data-act="export" type="button">Code erstellen</button><button class="btn small ghost" data-act="copycode" type="button" id="copybtn" hidden>Code kopieren</button></div>
+  <label for="codebox" class="sr">Fortschritts-Code</label><textarea id="codebox" class="code" placeholder="Hier erscheint der Code – oder füge hier einen Code von einem anderen Gerät ein." spellcheck="false"></textarea>
+  <div class="row"><button class="btn small" data-act="import" type="button">Code übernehmen</button></div><p id="codemsg" class="muted" aria-live="polite"></p>
+  <h3>Zurücksetzen</h3><div class="row"><button class="btn small danger" data-act="reset" type="button">${resetArm?'Wirklich alles löschen? Nochmals tippen':'Fortschritt zurücksetzen'}</button></div></div></section>`;}
+
+/* ---------- App-Installation ---------- */
+let installEvt=null;
+const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installEvt=e;if(!location.hash||location.hash==='#start')viewHome();});
+window.addEventListener('appinstalled',()=>{installEvt=null;S.hideInstall=true;save();});
+function installHTML(){if(isStandalone()||S.hideInstall||location.protocol==='file:')return '';
+  const how=installEvt?`<div class="row"><button class="btn primary" data-act="install" type="button">App installieren</button><button class="btn ghost small" data-act="hideinstall" type="button">Nicht jetzt</button></div>`
+   :isIOS()?`<p>In <b>Safari</b> unten auf das Teilen-Symbol (Quadrat mit Pfeil) tippen, dann <b>«Zum Home-Bildschirm»</b>.</p><div class="row"><button class="btn ghost small" data-act="hideinstall" type="button">Ausblenden</button></div>`
+   :`<p>Im Browser-Menü (⋮) auf <b>«App installieren»</b> oder <b>«Zum Startbildschirm hinzufügen»</b> tippen.</p><div class="row"><button class="btn ghost small" data-act="hideinstall" type="button">Ausblenden</button></div>`;
+  return `<section class="card install"><h3>Als App auf den Startbildschirm</h3><p class="muted">Dann startet die Mathe-Werkstatt wie eine normale App – und funktioniert auch ohne Internet.</p>${how}</section>`;}
+
+/* ---------- Fortschritt übertragen ---------- */
+function exportCode(){return 'MW1:'+btoa(unescape(encodeURIComponent(JSON.stringify(S))));}
+function importCode(code){code=String(code).trim().replace(/\s+/g,'');if(code.indexOf('MW1:')!==0)throw new Error('format');const d=JSON.parse(decodeURIComponent(escape(atob(code.slice(4)))));if(!d||typeof d!=='object'||!d.stats)throw new Error('format');return d;}
+
+/* ---------- Router & Ereignisse ---------- */
+function route(){clearInterval(timer);resetArm=false;submitArm=false;const h=(location.hash||'').slice(1);
+  if(h!=='blitz'&&B&&B.state==='run')B=null;
+  if(h.indexOf('thema-')===0&&TOPIC[h.slice(6)])return viewTopic(h.slice(6));
+  if(h==='test')return viewTest();if(h==='blitz')return viewBlitz();if(h==='fehler')return viewFehler();if(h==='plan')return viewPlan();
+  if(CUR&&CUR.mode==='fehler')CUR=null;viewHome();}
+window.addEventListener('hashchange',()=>{route();window.scrollTo(0,0);});
+
+app.addEventListener('submit',e=>{e.preventDefault();
+  if(e.target.id==='ansform'){if(CUR&&CUR.done){newQ();return;}submitAnswer(document.getElementById('ans').value);}
+  else if(e.target.id==='bform'){const inp=document.getElementById('bans'),p=parseIn(inp.value,false),card=document.getElementById('bcard');if(!p||p.err)return;if(Math.abs(p.v-B.q.a)<1e-9){B.ok++;card.className='card flash-ok';}else{B.bad++;card.className='card flash-no';}void card.offsetWidth;B.q=genBlitz();document.getElementById('bq').textContent=B.q.q;document.getElementById('bok').textContent=B.ok;inp.value='';inp.focus();}});
+app.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='tans'){e.preventDefault();T.ans[T.idx]=e.target.value;if(T.idx<19){T.idx++;testRun();}}});
+app.addEventListener('change',e=>{const el=e.target;if(el.dataset&&el.dataset.act==='plan'){S.plan[el.dataset.k]=el.checked;save();viewPlan();}});
+app.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el||el.dataset.act==='plan')return;const act=el.dataset.act;
+  switch(act){
+  case 'install':if(installEvt){installEvt.prompt();installEvt.userChoice.finally(()=>{installEvt=null;viewHome();});}break;
+  case 'hideinstall':S.hideInstall=true;save();viewHome();break;
+  case 'export':{const box=document.getElementById('codebox');box.value=exportCode();box.select();document.getElementById('copybtn').hidden=false;document.getElementById('codemsg').textContent='Code erstellt. Kopiere ihn und schick ihn an dich selbst.';break;}
+  case 'copycode':{const box=document.getElementById('codebox'),msg=document.getElementById('codemsg');const done=()=>{msg.textContent='Kopiert!';};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(box.value).then(done,()=>{box.select();msg.textContent='Bitte den markierten Code von Hand kopieren.';});else{box.select();try{document.execCommand('copy');done();}catch(_){msg.textContent='Bitte den markierten Code von Hand kopieren.';}}break;}
+  case 'import':{const msg=document.getElementById('codemsg');try{const d=importCode(document.getElementById('codebox').value);S=Object.assign({stats:{},wrong:[],plan:{},blitzBest:0,tests:[],days:[],solved:0},d);save();CUR=null;T=null;viewPlan();document.getElementById('codemsg').textContent='Fortschritt übernommen ✓';}catch(_){msg.textContent='Dieser Code funktioniert nicht. Bitte den ganzen Code kopieren – er beginnt mit «MW1:».';}break;}
+  case 'tab':CUR.tab=el.dataset.tab;renderTopicPanel();break;
+  case 'lvl':CUR.l=+el.dataset.l;CUR.streak=0;document.getElementById('lv').innerHTML=levelsHTML();newQ();break;
+  case 'hint':{const fb=document.getElementById('fb');if(!fb.querySelector('.hint'))fb.insertAdjacentHTML('afterbegin',`<div class="msg hint"><strong>Tipp</strong>${CUR.it.hint}</div>`);break;}
+  case 'reveal':if(!CUR.done)finishQ(false,true);break;
+  case 'next':newQ();break;
+  case 'mc':{const i=+el.dataset.i;if(T&&!T.done&&location.hash==='#test'){T.ans[T.idx]=i;document.querySelectorAll('#tcard .mc button').forEach((b,j)=>b.classList.toggle('sel',j===i));document.querySelectorAll('.jump button')[T.idx].classList.add('done');}else submitAnswer(i);break;}
+  case 'key':{const inp=document.getElementById('ans')||document.getElementById('tans');if(!inp||inp.disabled)break;const s=inp.selectionStart??inp.value.length,en=inp.selectionEnd??inp.value.length;inp.value=inp.value.slice(0,s)+el.dataset.k+inp.value.slice(en);inp.focus();try{inp.setSelectionRange(s+1,s+1);}catch(_){}if(inp.id==='tans')T.ans[T.idx]=inp.value;break;}
+  case 'sessdone':S.plan[el.dataset.k]=true;save();viewHome();break;
+  case 'tstart':T=makeTest(el.dataset.pro==='1');submitArm=false;testRun();break;
+  case 'tjump':T.idx=+el.dataset.i;testRun();break;
+  case 'tprev':if(T.idx>0){T.idx--;testRun();}break;
+  case 'tnext':if(T.idx<19){T.idx++;testRun();}else{const f=T.ans.findIndex(a=>a==null||a==='');if(f>=0){T.idx=f;testRun();}}break;
+  case 'tfinish':{const open=T.ans.filter(a=>a==null||a==='').length;if(open&&!submitArm){submitArm=true;testRun();}else testFinish();break;}
+  case 'tnew':T=null;testSetup();break;
+  case 'bstart':B={state:'run',ok:0,bad:0,end:Date.now()+60000,q:genBlitz()};viewBlitz();break;
+  case 'clearwrong':if(!resetArm){resetArm=true;el.textContent='Wirklich alles löschen?';}else{S.wrong=[];save();resetArm=false;viewFehler();}break;
+  case 'reset':if(!resetArm){resetArm=true;el.textContent='Wirklich alles löschen? Nochmals tippen';}else{S={stats:{},wrong:[],plan:{},blitzBest:0,tests:[],days:[],solved:0};save();resetArm=false;CUR=null;T=null;viewPlan();}break;
+  }});
+
+window.__mw={gen,check,GEN,TOPICS,parseIn,ansText,exportCode,importCode};
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});
+route();
+})();
+</script>
+</body>
+</html>
