@@ -240,6 +240,22 @@ table.mini td,table.mini th{border:1px solid var(--line);padding:4px 10px;text-a
 .sess input{width:20px;height:20px;accent-color:var(--good)}
 .install{border-left:6px solid var(--blue)}
 .code{width:100%;min-height:90px;font:400 .8rem/1.3 ui-monospace,Menlo,Consolas,monospace;border:2px solid var(--line);border-radius:10px;padding:8px;background:var(--card);color:var(--ink);word-break:break-all}
+.fw{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:70}
+.celebrate{position:fixed;inset:0;z-index:60;background:rgba(12,16,26,.66);display:flex;align-items:center;justify-content:center;padding:20px;animation:fadein .25s ease}
+.cel-card{background:var(--card);color:var(--ink);border-radius:18px;max-width:420px;width:100%;max-height:100%;overflow:auto;padding:26px 20px 20px;display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4);animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+.cel-card h2{font-size:2.1rem;text-transform:uppercase;letter-spacing:.01em}
+.cel-card .q{font-weight:700;font-size:1.1rem}
+.cel-card .row{width:100%}
+.cel-card .row .btn{flex:1 1 100%}
+.cel-badge{color:#fff;background:var(--good);width:104px;height:104px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;font:700 1rem var(--display);letter-spacing:.12em;text-transform:uppercase;box-shadow:0 0 0 6px var(--good-bg)}
+.cel-badge b{font-size:3rem;letter-spacing:0}
+.cel-leds{display:flex;gap:8px}
+.cel-leds .led{width:14px;height:14px}
+.bigwrap{transform:scale(1.35);transform-origin:center top;margin-bottom:58px;width:86px}
+.bigwrap .brk{min-height:158px}
+.brk.glow{box-shadow:0 0 0 3px var(--good),0 0 26px var(--good)}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes fadein{from{opacity:0}}
 .tips{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
 
 @media (max-width:420px){
@@ -625,7 +641,8 @@ const wires='<div class="wires" aria-hidden="true"><i></i><i></i><i></i></div>';
 function topbar(){return `<div class="topbar"><a href="#start" class="back">← Übersicht</a><a href="#start" aria-label="Zur Startseite">Mathe-Werkstatt <span>Elektro</span></a></div>`;}
 
 function breakerHTML(tp){const m=[1,2,3].map(l=>mastered(tp.id,l)),tried=[1,2,3].map(l=>{const s=S.stats[tp.id]&&S.stats[tp.id][l];return !!s&&s.n>0;}),on=m[0]&&m[1];
-  return `<a class="brk${on?' on':''}" href="#thema-${tp.id}" aria-label="${tp.name}: ${on?'eingeschaltet':'ausgeschaltet'}, ${m.filter(Boolean).length} von 3 Stufen geschafft"><span class="brk-f">${tp.f}</span><span class="brk-sw" aria-hidden="true">I<span class="brk-slot"><span class="brk-lever"></span></span>0</span><span class="brk-leds" aria-hidden="true">${[0,1,2].map(i=>`<i class="led ${m[i]?'ok':(tried[i]?'busy':'')}"></i>`).join('')}</span><span class="brk-name">${tp.short}</span></a>`;}
+  const flip=on&&S.justOn===tp.id;
+  return `<a class="brk${on&&!flip?' on':''}" data-t="${tp.id}" href="#thema-${tp.id}" aria-label="${tp.name}: ${on?'eingeschaltet':'ausgeschaltet'}, ${m.filter(Boolean).length} von 3 Stufen geschafft"><span class="brk-f">${tp.f}</span><span class="brk-sw" aria-hidden="true">I<span class="brk-slot"><span class="brk-lever"></span></span>0</span><span class="brk-leds" aria-hidden="true">${[0,1,2].map(i=>`<i class="led ${m[i]?'ok':(tried[i]?'busy':'')}"></i>`).join('')}</span><span class="brk-name">${tp.short}</span></a>`;}
 
 function viewHome(){
   const cp=curPlan(),on=TOPICS.filter(t=>mastered(t.id,1)&&mastered(t.id,2)).length;
@@ -647,6 +664,7 @@ function viewHome(){
   <a class="tool" href="#fehler"><b>Fehlerheft</b><span>${S.wrong.length?S.wrong.length+' Aufgabe'+(S.wrong.length===1?'':'n')+' zum Wiederholen':'Noch leer'}</span></a>
   <a class="tool" href="#plan"><b>Wochenplan</b><span>12 Wochen · 4 × 20 Min. Mit Tipps für Eltern.</span></a>
   </div></section>`;
+  flipBreaker();
 }
 
 /* ---------- Ansicht: Thema ---------- */
@@ -679,7 +697,9 @@ function renderQ(){const box=document.getElementById('qcard');if(!box)return;con
 function stepsHTML(it){return `<ol class="steps">${it.steps.map(s=>`<li>${s}</li>`).join('')}</ol>`;}
 const PRAISE=['Richtig!','Stimmt genau!','Sauber gerechnet!','Korrekt – weiter so!','Genau so!'];
 function finishQ(ok,viaReveal){const it=CUR.it,fb=document.getElementById('fb');CUR.done=true;
+  const before=[1,2,3].map(l=>mastered(it.t,l)),onBefore=before[0]&&before[1];
   record(it,ok);
+  if(ok&&!before[it.l-1]&&mastered(it.t,it.l)){const brk=!onBefore&&mastered(it.t,1)&&mastered(it.t,2);if(brk){S.justOn=it.t;save();}setTimeout(()=>celebrate(it.t,it.l,brk),450);}
   if(CUR.mode==='fehler'){if(ok)S.wrong=S.wrong.filter(w=>w.q!==it.q);else{const i=S.wrong.findIndex(w=>w.q===it.q);if(i>=0){const [w]=S.wrong.splice(i,1);S.wrong.push(w);}}save();}
   CUR.streak=ok?CUR.streak+1:0;
   const head=ok?`<div class="msg good"><strong>${P(PRAISE)}</strong>${CUR.mode==='fehler'?'Diese Aufgabe ist aus dem Fehlerheft gestrichen.':'So kann man rechnen:'}${stepsHTML(it)}</div>`
@@ -697,6 +717,58 @@ function submitAnswer(raw){const it=CUR.it,fb=document.getElementById('fb');if(!
   CUR.tries++;
   if(CUR.tries<2){fb.innerHTML=`<div class="msg bad"><strong>Noch nicht ganz</strong>Schau nochmal genau hin – du hast einen zweiten Versuch.</div><div class="msg hint"><strong>Tipp</strong>${it.hint}</div>`;const inp=document.getElementById('ans');inp.select();}
   else finishQ(false);}
+
+/* ---------- Feuerwerk & Gratulation ---------- */
+function fireworks(ms){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const cv=document.createElement('canvas');cv.className='fw';cv.setAttribute('aria-hidden','true');document.body.appendChild(cv);
+  const ctx=cv.getContext('2d'),dpr=Math.min(2,window.devicePixelRatio||1),W=window.innerWidth,H=window.innerHeight;
+  cv.width=W*dpr;cv.height=H*dpr;ctx.scale(dpr,dpr);
+  const cols=['#efc31a','#4cb757','#5b8ff0','#e0874a','#ff5a4e','#ffffff','#9be6a5'];
+  const rockets=[],parts=[],start=performance.now();let last=start,nextLaunch=0;
+  const launch=()=>rockets.push({x:W*(0.15+Math.random()*0.7),y:H,vx:(Math.random()-0.5)*1.4,vy:-(H*0.011+Math.random()*H*0.004),ty:H*(0.12+Math.random()*0.33),c:P(cols)});
+  const burst=r=>{const n=55+R(0,35),c2=P(cols);for(let i=0;i<n;i++){const a=Math.PI*2*i/n+Math.random()*0.1,v=1.2+Math.random()*3.6;parts.push({x:r.x,y:r.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,life:1,d:0.010+Math.random()*0.006,c:Math.random()<0.7?r.c:c2});}};
+  launch();launch();
+  function frame(now){const dt=Math.min(32,now-last)/16.67,t=now-start;last=now;ctx.clearRect(0,0,W,H);
+    if(t<ms-900&&t>=nextLaunch){launch();nextLaunch=t+220+Math.random()*330;}
+    for(let i=rockets.length-1;i>=0;i--){const r=rockets[i];r.x+=r.vx*dt;r.y+=r.vy*dt;r.vy+=0.12*dt;
+      ctx.strokeStyle=r.c;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(r.x,r.y);ctx.lineTo(r.x-r.vx*3,r.y-r.vy*3);ctx.stroke();
+      if(r.y<=r.ty||r.vy>=-0.5){burst(r);rockets.splice(i,1);}}
+    for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.vx*=0.975;p.vy=p.vy*0.975+0.05*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=p.d*dt;
+      if(p.life<=0){parts.splice(i,1);continue;}ctx.globalAlpha=p.life;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,2.4,0,6.3);ctx.fill();}
+    ctx.globalAlpha=1;
+    if(t<ms||parts.length||rockets.length)requestAnimationFrame(frame);else cv.remove();}
+  requestAnimationFrame(frame);}
+function bigBreaker(t,on){const tp=TOPIC[t],m=[1,2,3].map(l=>mastered(t,l));
+  return `<div class="bigwrap" aria-hidden="true"><span class="brk${on?' on':''}" id="celbrk"><span class="brk-f">${tp.f}</span><span class="brk-sw">I<span class="brk-slot"><span class="brk-lever"></span></span>0</span><span class="brk-leds">${m.map(x=>`<i class="led ${x?'ok':''}"></i>`).join('')}</span><span class="brk-name">${tp.short}</span></span></div>`;}
+function celebrate(t,l,brk){const tp=TOPIC[t],m3=mastered(t,3);let top,title,text,q='',btns;
+  if(brk){top=bigBreaker(t,false);title='Sicherung ein!';
+    text=`Stufe 1 und 2 in «${tp.name}» geschafft. Die Sicherung <b>${tp.f}</b> ist jetzt eingeschaltet und leuchtet grün in deinem Verteilerkasten.`;
+    if(!m3){q='Traust du dir die Profi-Stufe 3 zu?';btns=[['Ja, weiter zu Stufe 3','go3',1],['Zum Verteilerkasten','home'],['Hier weiterüben','stay']];}
+    else btns=[['Zum Verteilerkasten','home',1],['Hier weiterüben','stay']];}
+  else{const leds=`<div class="cel-leds" aria-hidden="true">${[1,2,3].map(x=>`<i class="led ${mastered(t,x)?'ok':''}"></i>`).join('')}</div>`;
+    top=`<div class="cel-badge" aria-hidden="true">Stufe<b>${l}</b></div>${leds}`;
+    if(l===3){title='Profi!';text=`Du hast die Profi-Stufe in «${tp.name}» geschafft: 8 von 10 richtig. Alle drei Lämpchen von ${tp.f} leuchten.`;
+      btns=mastered(t,1)&&mastered(t,2)?[['Nächstes Thema wählen','home',1],['Hier weiterüben','stay']]:[[`Zu Stufe ${mastered(t,1)?2:1}`,'go'+(mastered(t,1)?2:1),1],['Hier weiterüben','stay']];}
+    else if(l===2&&!mastered(t,1)){title='Gratuliere!';text=`Stufe 2 in «${tp.name}» geschafft – 8 von 10 richtig! Schaff noch Stufe 1, dann geht die Sicherung ${tp.f} an.`;q='Willst du jetzt Stufe 1 machen?';btns=[['Ja, zu Stufe 1','go1',1],['Noch auf Stufe 2 bleiben','stay']];}
+    else{const n=l+1;title='Gratuliere!';text=`Stufe ${l} in «${tp.name}» geschafft – 8 von 10 richtig. Stark gemacht!`;q=`Willst du zur Stufe ${n} weitergehen?`;btns=[[`Ja, weiter zu Stufe ${n}`,'go'+n,1],[`Noch auf Stufe ${l} bleiben`,'stay']];}}
+  fireworks(brk?4000:2600);
+  const ov=document.createElement('div');ov.className='celebrate';ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');ov.setAttribute('aria-labelledby','cel-h');
+  ov.innerHTML=`<div class="cel-card">${top}<h2 id="cel-h">${title}</h2><p>${text}</p>${q?`<p class="q">${q}</p>`:''}<div class="row">${btns.map(b=>`<button type="button" class="btn${b[2]?' primary':' ghost'}" data-cel="${b[1]}">${b[0]}</button>`).join('')}</div></div>`;
+  document.body.appendChild(ov);
+  const close=()=>{ov.remove();document.removeEventListener('keydown',onKey);};
+  const onKey=e=>{if(e.key==='Escape'){close();const nb=document.getElementById('nextbtn');if(nb)nb.focus();}};
+  document.addEventListener('keydown',onKey);
+  ov.addEventListener('click',e=>{const b=e.target.closest('[data-cel]');if(!b)return;const a=b.dataset.cel;close();
+    if(a==='stay'){const nb=document.getElementById('nextbtn');if(nb)nb.focus();return;}
+    if(a==='home'){location.hash='start';return;}
+    const n=+a.slice(2);
+    if(CUR&&CUR.mode==='topic'&&CUR.t===t){CUR.l=n;CUR.streak=0;const lv=document.getElementById('lv');if(lv)lv.innerHTML=levelsHTML();newQ();window.scrollTo(0,0);}
+    else{CUR={mode:'topic',t,l:n,tab:'ueben',streak:0};if(location.hash==='#thema-'+t)viewTopic(t);else location.hash='thema-'+t;}});
+  ov.querySelector('[data-cel]').focus();
+  if(brk)setTimeout(()=>{const b=document.getElementById('celbrk');if(b)b.classList.add('on','glow');},900);}
+function flipBreaker(){const id=S.justOn;if(!id||!TOPIC[id])return;S.justOn=null;save();
+  setTimeout(()=>{const el=app.querySelector(`.brk[data-t="${id}"]`);if(!el)return;el.scrollIntoView({block:'center',behavior:'smooth'});
+    setTimeout(()=>{el.classList.add('on','glow');setTimeout(()=>el.classList.remove('glow'),2600);},800);},80);}
 
 /* ---------- Ansicht: Fehlerheft ---------- */
 function viewFehler(){
@@ -830,7 +902,7 @@ app.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if(!el|
   case 'reset':if(!resetArm){resetArm=true;el.textContent='Wirklich alles löschen? Nochmals tippen';}else{S={stats:{},wrong:[],plan:{},blitzBest:0,tests:[],days:[],solved:0};save();resetArm=false;CUR=null;T=null;viewPlan();}break;
   }});
 
-window.__mw={gen,check,GEN,TOPICS,parseIn,ansText,exportCode,importCode};
+window.__mw={gen,check,GEN,TOPICS,parseIn,ansText,exportCode,importCode,celebrate,st:()=>S,cur:()=>CUR};
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});
 route();
 })();

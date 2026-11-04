@@ -1,7 +1,7 @@
 /* Mathe-Werkstatt Elektro – Offline-Speicher.
    Liefert alles sofort aus dem Speicher und holt im Hintergrund die neuste Version.
    Bei einer neuen Version: CACHE-Nummer erhöhen. */
-const CACHE = 'mathe-werkstatt-v1';
+const CACHE = 'mathe-werkstatt-v2';
 const ASSETS = [
   './',
   './index.html',
